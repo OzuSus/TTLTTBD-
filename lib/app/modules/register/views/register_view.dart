@@ -22,7 +22,137 @@ class _RegisterViewState extends State<RegisterView> {
   final TextEditingController _addressController = TextEditingController();
   bool _isPasswordVisible = false;
 
+  Future<void> register() async {
+    String username = _usernameController.text.trim();
+    String password = _passwordController.text.trim();
+    String fullname = _fullnameController.text.trim();
+    String email = _emailController.text.trim();
+    String phone = _phoneController.text.trim();
+    String address = _addressController.text.trim();
 
+    if (username.isEmpty || password.isEmpty || fullname.isEmpty || email.isEmpty || phone.isEmpty || address.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Lỗi"),
+            content: const Text("Vui lòng nhập đầy đủ thông tin"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    final String apiUrl = "http://localhost:8080/api/users/register";
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "username": username,
+          "password": password,
+          "fullname": fullname,
+          "email": email,
+          "phone": phone,
+          "address": address,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Thông báo"),
+              content: const Text("Đăng ký tài khoản thành công"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+
+      } else if (response.statusCode == 400) {
+        // Xử lý lỗi Bad Request
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Lỗi"),
+              content: const Text("Yêu cầu không hợp lệ. Kiểm tra lại thông tin."),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (response.statusCode == 500) {
+        // Xử lý lỗi Bad Request
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Lỗi"),
+              content: const Text("Tài khoản đã tồn tại"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      }else {
+        // Xử lý các mã lỗi khác
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Lỗi"),
+              content: Text("Đã xảy ra lỗi: ${response.statusCode}"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      // Lỗi kết nối hoặc server không phản hồi
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Lỗi"),
+            content: const Text("Không thể kết nối đến server"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
