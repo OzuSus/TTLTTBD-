@@ -37,19 +37,36 @@ class SettingsView extends GetView<SettingsController> {
               id: 'User',
               builder: (controller) {
                 final user = controller.currentUser;
-                return SettingsItem(
-                  title: user?['username'] ?? 'Username',
-                  subtitle: user != null
-                      ? Text(
-                    user['email'] ?? '',
-                    style: theme.textTheme.displaySmall,
-                  )
-                      : null,
-                  icon: Constants.userIcon,
-                  isAccount: true,
+                return Column(
+                  children: [
+                    SettingsItem(
+                      title: user?['username'] ?? 'Username',
+                      subtitle: user != null
+                          ? Text(
+                        user['email'] ?? '',
+                        style: theme.textTheme.displaySmall,
+                      )
+                          : null,
+                      icon: Constants.userIcon,
+                      isAccount: true,
+                    ),
+                    if (user != null && user['role'] == true) ...[
+                      25.verticalSpace,
+                      const SettingsItem(
+                        title: 'Manage',
+                        icon: Constants.languageIcon,
+                      ),
+                    ],
+                  ],
                 );
               },
             ),
+            // 25.verticalSpace,
+            // const SettingsItem(
+            //   title: 'Manage',
+            //   icon: Constants.languageIcon,
+            // ),
+
             30.verticalSpace,
             Text(
               'Settings',
@@ -58,12 +75,12 @@ class SettingsView extends GetView<SettingsController> {
                 fontWeight: FontWeight.normal,
               ),
             ),
-            20.verticalSpace,
-            const SettingsItem(
-              title: 'Dark Mode',
-              icon: Constants.themeIcon,
-              isDark: true,
-            ),
+            // 20.verticalSpace,
+            // const SettingsItem(
+            //   title: 'Dark Mode',
+            //   icon: Constants.themeIcon,
+            //   isDark: true,
+            // ),
             25.verticalSpace,
             const SettingsItem(
               title: 'Language',
