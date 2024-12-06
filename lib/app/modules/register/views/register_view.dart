@@ -71,10 +71,13 @@ class _RegisterViewState extends State<RegisterView> {
           builder: (context) {
             return AlertDialog(
               title: const Text("Thông báo"),
-              content: const Text("Đăng ký tài khoản thành công"),
+              content: const Text("Đăng ký tài khoản thành công. Chuyển đến trang Login"),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Get.offNamed(Routes.LOGIN); // Chuyển đến trang LOGIN
+                  },
                   child: const Text("OK"),
                 ),
               ],
