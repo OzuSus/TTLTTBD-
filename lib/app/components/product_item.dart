@@ -17,7 +17,13 @@ class ProductItem extends StatelessWidget {
     final theme = context.theme;
 
     return GestureDetector(
-      onTap: () => Get.toNamed(Routes.PRODUCT_DETAILS, arguments: product),
+      onTap: () {
+        Get.toNamed(
+          Routes.PRODUCT_DETAILS,
+          arguments: {'id': product.id},
+        );
+      },
+
       child: SizedBox(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
