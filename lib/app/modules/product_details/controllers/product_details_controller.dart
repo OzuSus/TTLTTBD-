@@ -1,38 +1,36 @@
-import 'package:get/get.dart';
+import 'dart:convert';
 
-import '../../../../utils/dummy_helper.dart';
-import '../../../data/models/product_model.dart';
-import '../../base/controllers/base_controller.dart';
-import '../../cart/controllers/cart_controller.dart';
+import 'package:ecommerce_app/app/models/product.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class ProductDetailsController extends GetxController {
+  late Product product;
+  final isLoading = true.obs;
 
-  // get product details from arguments
-  ProductModel product = Get.arguments;
-
-  // for the product size
-  var selectedSize = 'M';
-
-  /// when the user press on the favorite button
-  onFavoriteButtonPressed() {
-    Get.find<BaseController>().onFavoriteButtonPressed(productId: product.id!);
-    update(['FavoriteButton']);
+  @override
+  void onInit() {
+    super.onInit();
+    fetchProductDetails();
   }
 
-  /// when the user press on add to cart button
-  onAddToCartPressed() {
-    var mProduct = DummyHelper.products.firstWhere((p) => p.id == product.id);
-    mProduct.quantity = mProduct.quantity! + 1;
-    mProduct.size = selectedSize;
-    Get.find<CartController>().getCartProducts();
-    Get.back();
-  }
+  Future<void> fetchProductDetails() async {
+    final int productId = Get.arguments['id'];
+    try {
+      final response = await http.get(
+        Uri.parse('http://localhost:8080/api/products/id?id=$productId'),
+      );
 
-  /// change the selected size
-  changeSelectedSize(String size) {
-    if (size == selectedSize) return;
-    selectedSize = size;
-    update(['Size']);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        product = Product.fromJson(data);
+      } else {
+        throw Exception('Failed to load product');
+      }
+    } catch (e) {
+      print('Error: $e');
+    } finally {
+      isLoading(false);
+    }
   }
-
 }
