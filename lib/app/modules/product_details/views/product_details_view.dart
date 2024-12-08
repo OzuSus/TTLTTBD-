@@ -31,7 +31,6 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
               children: [
                 Stack(
                   children: [
-                    // Container chứa ảnh sản phẩm
                     Container(
                       width: double.infinity,
                       height: 450.h,
