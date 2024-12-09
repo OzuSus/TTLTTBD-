@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/app/modules/categories/views/categories_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,7 +9,6 @@ import '../controllers/base_controller.dart';
 import '../../cart/views/cart_view.dart';
 import '../../favorites/views/favorites_view.dart';
 import '../../home/views/home_view.dart';
-import '../../notifications/views/notifications_view.dart';
 import '../../settings/views/settings_view.dart';
 
 class BaseView extends GetView<BaseController> {
@@ -28,7 +28,7 @@ class BaseView extends GetView<BaseController> {
               HomeView(),
               FavoritesView(),
               CartView(),
-              NotificationsView(),
+              CategoryView(),
               SettingsView()
             ],
           ),
