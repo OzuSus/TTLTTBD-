@@ -57,7 +57,7 @@ class _LoginViewState extends State<LoginView> {
     }
 
     final String apiUrl =
-        "http://10.0.167.232:8080/api/users/login?username=$username&password=$password";
+        "http://localhost:8080/api/users/login?username=$username&password=$password";
 
     try {
       final response = await http.post(Uri.parse(apiUrl));

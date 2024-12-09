@@ -14,31 +14,43 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: ListView(
-          children: [
-            30.verticalSpace,
-            const ScreenTitle(
-              title: 'Home',
-            ),
-            20.verticalSpace,
-            GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 15.w,
-                mainAxisSpacing: 15.h,
-                mainAxisExtent: 260.h,
+        child: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (controller.products.isEmpty) {
+            return const Center(child: Text('No products available'));
+          }
+
+          return ListView(
+            children: [
+              30.verticalSpace,
+              const ScreenTitle(
+                title: 'Home',
               ),
-              shrinkWrap: true,
-              primary: false,
-              itemCount: controller.products.length,
-              itemBuilder: (context, index) => ProductItem(
-                product: controller.products[index],
+              20.verticalSpace,
+              GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15.w,
+                  mainAxisSpacing: 15.h,
+                  mainAxisExtent: 260.h,
+                ),
+                shrinkWrap: true,
+                primary: false,
+                itemCount: controller.products.length,
+                itemBuilder: (context, index) {
+                  final product = controller.products[index];
+                  return ProductItem(product: product);
+                },
               ),
-            ),
-            10.verticalSpace,
-          ],
-        ),
+              10.verticalSpace,
+            ],
+          );
+        }),
       ),
     );
   }
 }
+
