@@ -24,24 +24,24 @@ class FavoritesView extends GetView<FavoritesController> {
               dividerEndIndent: 200,
             ),
             20.verticalSpace,
-            GetBuilder<FavoritesController>(
-              builder: (_) => controller.products.isEmpty
-                ? const NoData(text: 'No Products in Favorite Yet!')
-                : GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 15.w,
-                      mainAxisSpacing: 15.h,
-                      mainAxisExtent: 260.h,
-                    ),
-                    shrinkWrap: true,
-                    primary: false,
-                    itemCount: controller.products.length,
-                    itemBuilder: (context, index) => ProductItem(
-                      product: controller.products[index],
-                    ),
-                  ),
-            ),
+            // GetBuilder<FavoritesController>(
+            //   builder: (_) => controller.products.isEmpty
+            //     ? const NoData(text: 'No Products in Favorite Yet!')
+            //     : GridView.builder(
+            //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //           crossAxisCount: 2,
+            //           crossAxisSpacing: 15.w,
+            //           mainAxisSpacing: 15.h,
+            //           mainAxisExtent: 260.h,
+            //         ),
+            //         shrinkWrap: true,
+            //         primary: false,
+            //         itemCount: controller.products.length,
+            //         itemBuilder: (context, index) => ProductItem(
+            //           // product: controller.products[index],
+            //         ),
+            //       ),
+            // ),
             10.verticalSpace,
           ],
         ),
