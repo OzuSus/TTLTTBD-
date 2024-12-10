@@ -68,7 +68,6 @@ class _LoginViewState extends State<LoginView> {
         await saveUserInfo(user);
         Get.toNamed(Routes.BASE);
       } else if (response.statusCode == 400) {
-        // Xử lý lỗi Bad Request
         showDialog(
           context: context,
           builder: (context) {
@@ -85,7 +84,6 @@ class _LoginViewState extends State<LoginView> {
           },
         );
       } else {
-        // Xử lý các mã lỗi khác
         showDialog(
           context: context,
           builder: (context) {
@@ -103,7 +101,6 @@ class _LoginViewState extends State<LoginView> {
         );
       }
     } catch (e) {
-      // Lỗi kết nối hoặc server không phản hồi
       showDialog(
         context: context,
         builder: (context) {
@@ -128,7 +125,6 @@ class _LoginViewState extends State<LoginView> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Ảnh nền
           Image.asset(
             "assets/images/login_background.jpg",
             fit: BoxFit.cover,
@@ -219,7 +215,6 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Đăng ký
                   GestureDetector(
                     onTap: () {
                       Get.offNamed(Routes.REGISTER);
