@@ -7,6 +7,7 @@ class Constants {
   static const favoritesIcon = 'assets/vectors/favorites.svg';
   static const cartIcon = 'assets/vectors/cart.svg';
   static const notificationsIcon = 'assets/vectors/notifications.svg';
+  static const categoriesIcon = 'assets/vectors/categories.svg';
   static const settingsIcon = 'assets/vectors/settings.svg';
 
   static const favFilledIcon = 'assets/vectors/fav_filled.svg';
@@ -22,6 +23,8 @@ class Constants {
   static const languageIcon = 'assets/vectors/language.svg';
   static const helpIcon = 'assets/vectors/help.svg';
   static const logoutIcon = 'assets/vectors/logout.svg';
+  static const manageIcon = 'assets/vectors/manage.svg';
+  static const clipboardIcon = 'assets/vectors/clipboard.svg';
 
   static const product1 = 'assets/images/product1.png';
   static const product2 = 'assets/images/product2.png';
