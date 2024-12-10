@@ -66,12 +66,12 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                             onPressed: () => Get.back(),
                             child: SvgPicture.asset(Constants.backArrowIcon),
                           ),
-                          RoundedButton(
-                            onPressed: () {
-                              // Logic yêu thích nếu cần
-                            },
-                            child: SvgPicture.asset(Constants.favOutlinedIcon),
-                          ),
+                          // RoundedButton(
+                          //   onPressed: () {
+                          //     // Logic yêu thích nếu cần
+                          //   },
+                          //   child: SvgPicture.asset(Constants.favOutlinedIcon),
+                          // ),
                         ],
                       ),
                     ),

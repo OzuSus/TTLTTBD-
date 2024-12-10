@@ -19,8 +19,8 @@ class RoundedButton extends StatelessWidget {
         width: 40.w,
         height: 40.h,
         decoration: BoxDecoration(
-          color: Get.theme.primaryColor,
-          borderRadius: BorderRadius.circular(12.r),
+          color: Colors.grey,
+          borderRadius: BorderRadius.circular(15.r),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF0FDA89).withOpacity(0.3),

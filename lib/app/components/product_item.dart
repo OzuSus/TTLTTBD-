@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ecommerce_app/app/models/product.dart';
 import 'package:ecommerce_app/app/modules/favorites/controllers/favorites_controller.dart';
+import 'package:ecommerce_app/utils/UserUtils.dart';
 import 'package:ecommerce_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -55,11 +56,11 @@ class ProductItem extends StatelessWidget {
                   top: 10.h,
                   right: 10.w,
                   child: GetBuilder<FavoritesController>(
-                    init: FavoritesController(), // Khởi tạo FavoriteController
+                    init: FavoritesController(),
                     id: 'FavoriteButton',
                     builder: (controller) => GestureDetector(
                       onTap: () async {
-                        final userId = await _getUserId();
+                        final userId = await UserUtils.getUserId();
                         final isFavorite = controller.isFavorite(product.id);
                         showDialog(
                           context: context,
@@ -77,7 +78,7 @@ class ProductItem extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () async {
-                                  Navigator.pop(context); // Đóng popup
+                                  Navigator.pop(context);
                                   if (isFavorite) {
                                     await controller.removeFavorite(userId, product.id);
                                   } else {
@@ -91,6 +92,7 @@ class ProductItem extends StatelessWidget {
                           ),
                         );
                       },
+
                       child: CircleAvatar(
                         radius: 18.r,
                         backgroundColor: Colors.white,
@@ -103,6 +105,7 @@ class ProductItem extends StatelessWidget {
                       ),
                     ),
                   ),
+
                 ),
               ],
             ),
