@@ -57,6 +57,7 @@ class FavoritesController extends GetxController {
       if (response.statusCode == 200) {
         _favoriteProducts.add(productId);
         update(['FavoriteButton']);
+        await loadFavorites();
         Get.snackbar("Thành công", "Sản phẩm đã được thêm vào danh sách yêu thích.");
       } else {
         Get.snackbar("Lỗi", "Không thể thêm sản phẩm vào danh sách yêu thích.");
