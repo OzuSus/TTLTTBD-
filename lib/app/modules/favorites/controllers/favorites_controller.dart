@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ecommerce_app/app/models/product.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 class FavoritesController extends GetxController {
   final _favoriteProducts = <int>{}.obs;
+  final products = <Product>[].obs;
 
   @override
   void onInit() {
@@ -23,8 +25,9 @@ class FavoritesController extends GetxController {
       final response = await http.get(Uri.parse(apiUrl));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
-        _favoriteProducts.value = data.map<int>((item) => item['id'] as int).toSet();
-        update(['FavoriteButton']); // Cập nhật trạng thái giao diện
+        products.value = data.map<Product>((item) => Product.fromJson(item)).toList();
+        _favoriteProducts.value = products.map<int>((product) => product.id).toSet();
+        update(['FavoriteButton']);
       } else {
         Get.snackbar("Lỗi", "Không thể tải danh sách yêu thích.");
       }
@@ -33,7 +36,7 @@ class FavoritesController extends GetxController {
     }
   }
 
-   Future<int> _getUserId() async {
+  Future<int> _getUserId() async {
     final prefs = await SharedPreferences.getInstance();
     final userInfo = prefs.getString('user_info');
     if (userInfo != null) {
@@ -69,6 +72,7 @@ class FavoritesController extends GetxController {
       final response = await http.delete(Uri.parse(apiUrl));
       if (response.statusCode == 200) {
         _favoriteProducts.remove(productId);
+        products.removeWhere((product) => product.id == productId);
         update(['FavoriteButton']);
         Get.snackbar("Thành công", "Sản phẩm đã được xóa khỏi danh sách yêu thích.");
       } else {
@@ -79,3 +83,4 @@ class FavoritesController extends GetxController {
     }
   }
 }
+
