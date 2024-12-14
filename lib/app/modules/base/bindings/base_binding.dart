@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/app/modules/categories/controllers/categories_controller.dart';
+import 'package:ecommerce_app/app/modules/product_types/controllers/productTypes_controller.dart';
 import 'package:get/get.dart';
 import '../../cart/controllers/cart_controller.dart';
 import '../../favorites/controllers/favorites_controller.dart';
@@ -15,5 +16,6 @@ class BaseBinding extends Bindings {
     Get.lazyPut<CartController>(() => CartController());
     Get.lazyPut<CategoryController>(() => CategoryController());
     Get.lazyPut<SettingsController>(() => SettingsController());
+    // Get.lazyPut<ProductTypesController>(() => ProductTypesController());
   }
 }

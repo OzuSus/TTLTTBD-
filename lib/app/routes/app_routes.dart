@@ -13,6 +13,7 @@ abstract class Routes {
   static const CATEGORY = _Paths.CATEGORY;
   static const SETTINGS = _Paths.SETTINGS;
   static const PRODUCT_DETAILS = _Paths.PRODUCT_DETAILS;
+  static const PRODUCT_TYPES =_Paths.PRODUCT_TYPES;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const CATEGORY = '/category';
   static const SETTINGS = '/settings';
   static const PRODUCT_DETAILS = '/product-details';
+  static const PRODUCT_TYPES = '/product-types';
 }

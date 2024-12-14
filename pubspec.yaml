@@ -14,7 +14,8 @@ dependencies:
   change_app_package_name: 
   rename_app: 
   flutter_svg: 
-  flutter_animate: 
+  flutter_animate:
+  logger: ^1.4.0
   get: 
 
   flutter: 

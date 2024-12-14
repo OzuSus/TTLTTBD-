@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/app/modules/categories/views/categories_view.dart';
+import 'package:ecommerce_app/app/modules/product_types/views/productTypes_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,7 +30,8 @@ class BaseView extends GetView<BaseController> {
               FavoritesView(),
               CartView(),
               CategoryView(),
-              SettingsView()
+              SettingsView(),
+              // ProducttypesView(),
             ],
           ),
         ),
