@@ -37,4 +37,8 @@ class SettingsController extends GetxController {
     isLightTheme = MySharedPref.getThemeIsLight();
     update(['Theme']);
   }
+
+  void navigateToManage () async {
+    Get.toNamed('/manage');
+  }
 }

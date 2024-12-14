@@ -52,9 +52,10 @@ class SettingsView extends GetView<SettingsController> {
                     ),
                     if (user != null && user['role'] == true) ...[
                       25.verticalSpace,
-                      const SettingsItem(
+                      SettingsItem(
                         title: 'Manage',
                         icon: Constants.clipboardIcon,
+                        onTap: () => controller.navigateToManage(),
                       ),
                     ],
                   ],
