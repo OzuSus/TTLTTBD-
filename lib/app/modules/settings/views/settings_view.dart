@@ -54,7 +54,7 @@ class SettingsView extends GetView<SettingsController> {
                       25.verticalSpace,
                       const SettingsItem(
                         title: 'Manage',
-                        icon: Constants.languageIcon,
+                        icon: Constants.clipboardIcon,
                       ),
                     ],
                   ],

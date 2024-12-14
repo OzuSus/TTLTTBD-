@@ -78,8 +78,8 @@ class BaseView extends GetView<BaseController> {
                   icon: Constants.cartIcon,
                 ),
                 _mBottomNavItem(
-                  label: 'Notifications',
-                  icon: Constants.notificationsIcon,
+                  label: 'Categories',
+                  icon: Constants.categoriesIcon,
                 ),
                 _mBottomNavItem(
                   label: 'Settings',

@@ -10,7 +10,7 @@ import '../controllers/favorites_controller.dart';
 
 class FavoritesView extends GetView<FavoritesController> {
   const FavoritesView({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,24 +24,25 @@ class FavoritesView extends GetView<FavoritesController> {
               dividerEndIndent: 200,
             ),
             20.verticalSpace,
-            // GetBuilder<FavoritesController>(
-            //   builder: (_) => controller.products.isEmpty
-            //     ? const NoData(text: 'No Products in Favorite Yet!')
-            //     : GridView.builder(
-            //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //           crossAxisCount: 2,
-            //           crossAxisSpacing: 15.w,
-            //           mainAxisSpacing: 15.h,
-            //           mainAxisExtent: 260.h,
-            //         ),
-            //         shrinkWrap: true,
-            //         primary: false,
-            //         itemCount: controller.products.length,
-            //         itemBuilder: (context, index) => ProductItem(
-            //           // product: controller.products[index],
-            //         ),
-            //       ),
-            // ),
+            Obx(() {
+              if (controller.products.isEmpty) {
+                return const NoData(text: 'No Products in Favorite Yet!');
+              }
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15.w,
+                  mainAxisSpacing: 15.h,
+                  mainAxisExtent: 260.h,
+                ),
+                shrinkWrap: true,
+                primary: false,
+                itemCount: controller.products.length,
+                itemBuilder: (context, index) => ProductItem(
+                  product: controller.products[index],
+                ),
+              );
+            }),
             10.verticalSpace,
           ],
         ),
