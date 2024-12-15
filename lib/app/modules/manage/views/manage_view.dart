@@ -47,6 +47,11 @@ class ManageView extends GetView<ManageController> {
             icon: Icons.bar_chart,
             color: Colors.green, // Viền màu xanh
           ),
+          _buildCard(
+            title: 'OrderManage',
+            icon: Icons.receipt_long,
+            color: Colors.green, // Viền màu xanh
+          ),
         ],
       ),
     );
