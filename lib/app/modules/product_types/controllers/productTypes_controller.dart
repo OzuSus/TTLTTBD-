@@ -16,7 +16,8 @@ class ProductTypesController extends GetxController{
     fetchProducts();
 
   }
-  //aaa
+  //aaaa
+  //dfdsf
 
   void fetchProducts() async {
     final int categoryId = Get.arguments['idCategory'];
