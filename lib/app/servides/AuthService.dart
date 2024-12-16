@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class AuthService {
   Future<Map<String, dynamic>?> login(String username, String password) async {
-    const String apiUrl = "http://10.0.167.232:8080/api/users/login"; // Thay bằng endpoint thực tế
+    const String apiUrl = "http://localhost:8080/api/users/login"; // Thay bằng endpoint thực tế
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: {"Content-Type": "application/json"},
