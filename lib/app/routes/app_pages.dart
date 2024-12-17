@@ -20,7 +20,8 @@ import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
-
+import '../modules/manage/bindings/manage_binding.dart';
+import '../modules/manage/views/manage_view.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -80,6 +81,11 @@ class AppPages {
       binding: ProductDetailsBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 250),
+    ),
+    GetPage(
+      name: _Paths.MANAGE,
+      page: () => const ManageView(),
+      binding: ManageBinding(),
     ),
   ];
 }
