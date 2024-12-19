@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/app/modules/account/bindings/account_binding.dart';
+import 'package:ecommerce_app/app/modules/account/views/account_view.dart';
 import 'package:ecommerce_app/app/modules/categories/bindings/categories_binding.dart';
 import 'package:ecommerce_app/app/modules/categories/views/categories_view.dart';
 import 'package:ecommerce_app/app/modules/login/bindings/login_binding.dart';
@@ -86,6 +88,11 @@ class AppPages {
       name: _Paths.MANAGE,
       page: () => const ManageView(),
       binding: ManageBinding(),
+    ),
+    GetPage(
+      name: _Paths.ACCOUNT,
+      page: () => const AccountView(),
+      binding: AccountBinding(),
     ),
   ];
 }
