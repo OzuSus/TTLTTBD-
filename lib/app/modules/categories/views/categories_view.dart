@@ -40,6 +40,7 @@ class CategoryView extends GetView<CategoryController> {
                   return CategoryItem(
                     name: category.name,
                     imageName: category.image, // Tên ảnh từ API
+                    id: category.id,
                   ).animate().fade().slideY(
                     duration: const Duration(milliseconds: 300),
                     begin: 1,

@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/manage_controller.dart';
@@ -64,6 +65,9 @@ class ManageView extends GetView<ManageController> {
   }) {
     return GestureDetector(
       onTap: () {
+        if(title =='ProductManage'){
+          Get.toNamed('/product-manage');
+        }
         Get.snackbar('Tapped', 'You tapped on $title'); // Hiển thị thông báo khi click
       },
       child: Container(
