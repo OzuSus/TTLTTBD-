@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/app/models/product.dart';
+import 'package:ecommerce_app/app/modules/product_manage/controller/product_manage_controller.dart';
 import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -24,10 +25,10 @@ class ProductItem extends StatelessWidget {
         showMenu(
           context: context,
           position: RelativeRect.fromLTRB(
-            details.globalPosition.dx, // Vị trí X
-            details.globalPosition.dy, // Vị trí Y
-            MediaQuery.of(context).size.width - details.globalPosition.dx, // Trái
-            MediaQuery.of(context).size.height - details.globalPosition.dy, // Dưới
+            details.globalPosition.dx,
+            details.globalPosition.dy,
+            MediaQuery.of(context).size.width - details.globalPosition.dx,
+            MediaQuery.of(context).size.height - details.globalPosition.dy,
           ),
           items: [
             PopupMenuItem(
@@ -58,7 +59,21 @@ class ProductItem extends StatelessWidget {
               arguments: {'id': product.id},
             );
           } else if (value == 'delete') {
-            // _deleteProduct(product.id);
+            Get.defaultDialog(
+              title: 'Xác nhận',
+              middleText: 'Bạn có chắc chắn muốn xóa sản phẩm này không?',
+              textConfirm: 'Xóa',
+              textCancel: 'Hủy',
+              confirmTextColor: Colors.white,
+              cancelTextColor: Colors.green,
+              buttonColor: Colors.green,
+              onConfirm: () {
+                final controller = Get.find<ProductManageController>();
+                controller.deleteProduct(product.id);
+                Get.back();
+              },
+              onCancel: () {},
+            );
           }
         });
       },
