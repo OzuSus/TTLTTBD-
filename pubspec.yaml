@@ -6,6 +6,7 @@ environment:
   sdk: '>=3.0.1 <4.0.0'
 
 dependencies:
+  font_awesome_flutter: ^10.5.0
   http: ^1.2.2
   cupertino_icons:
   flutter_screenutil: ^5.8.4 

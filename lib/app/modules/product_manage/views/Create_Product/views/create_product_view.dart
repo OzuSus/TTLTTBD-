@@ -12,8 +12,10 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class EditProductView extends GetView<EditProductController>{
-  const EditProductView({super.key});
+import '../controller/create_product_controlller.dart';
+
+class CreateProductView extends GetView<CreateProductController>{
+  const CreateProductView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class EditProductView extends GetView<EditProductController>{
                           bottomRight: Radius.circular(30.r),
                         ),
                         child: Image.asset(
-                          'assets/images/${controller.product.image}',
+                          'assets/images/product1.jpg',
                           fit: BoxFit.cover, // Đảm bảo ảnh lấp đầy container
                           width: double.infinity,
                           height: 450.h,
@@ -82,7 +84,7 @@ class EditProductView extends GetView<EditProductController>{
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: TextField(
-                    controller: TextEditingController(text: controller.product.name),
+                    controller: TextEditingController(text: ''),
                     decoration: InputDecoration(
                       labelText: 'Tên sản phẩm',
                       labelStyle: const TextStyle(
@@ -125,7 +127,7 @@ class EditProductView extends GetView<EditProductController>{
                         style: theme.textTheme.displayMedium,
                       ),
                       30.horizontalSpace,
-                      QuantitySelector(quantity: controller.product.quantity,),
+                      QuantitySelector(quantity: 0,),
                     ],
                   ),
                 ),
@@ -183,8 +185,8 @@ class EditProductView extends GetView<EditProductController>{
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: TextField(
-                    maxLines: 5, // Số dòng tối đa
-                    controller: TextEditingController(text: controller.product.description),
+                    maxLines: 3, // Số dòng tối đa
+                    controller: TextEditingController(text: ''),
                     decoration: InputDecoration(
                       labelText: 'Mô tả sản phẩm',
                       labelStyle: const TextStyle(
@@ -229,7 +231,7 @@ class EditProductView extends GetView<EditProductController>{
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: CustomButton(
-                    text: 'Lưu thay đổi',
+                    text: 'Tạo mới sản phẩm',
                     onPressed: () {
                       // Logic thêm vào giỏ hàng
                     },

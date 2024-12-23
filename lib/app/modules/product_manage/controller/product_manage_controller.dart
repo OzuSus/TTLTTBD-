@@ -31,4 +31,21 @@ class ProductManageController extends GetxController{
       isLoading(false);
     }
   }
+
+  Future<void> deleteProduct(int idProduct) async {
+    final url = Uri.parse('http://localhost:8080/api/products/deleteProduct?idProduct=$idProduct');
+    try {
+      final response = await http.delete(url);
+      if (response.statusCode == 200) {
+        products.removeWhere((product) => product.id == idProduct);
+        Get.snackbar('Thành công', response.toString(), snackPosition: SnackPosition.BOTTOM);
+      } else {
+        Get.snackbar('Lỗi', response.toString(), snackPosition: SnackPosition.BOTTOM);
+      }
+    } catch (e) {
+      Get.snackbar('Lỗi', 'Đã xảy ra lỗi khi xóa sản phẩm', snackPosition: SnackPosition.BOTTOM);
+      print(e);
+    }
+  }
+
 }

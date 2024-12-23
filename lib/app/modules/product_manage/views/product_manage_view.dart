@@ -2,6 +2,7 @@ import 'package:ecommerce_app/app/components/screen_title.dart';
 import 'package:ecommerce_app/app/modules/product_details/views/widgets/rounded_button.dart';
 import 'package:ecommerce_app/app/modules/product_manage/controller/product_manage_controller.dart';
 import 'package:ecommerce_app/app/modules/product_manage/views/widgets/product_item.dart';
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:ecommerce_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,6 +42,7 @@ class ProductManageView extends GetView<ProductManageController> {
                     ),
                     IconButton(
                       onPressed: () {
+                        Get.toNamed(Routes.PRODUCT_CREATE);
                       },
                       icon: FaIcon(FontAwesomeIcons.plus),
                       iconSize: 40.h,
