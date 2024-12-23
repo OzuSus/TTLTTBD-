@@ -2,6 +2,10 @@ import 'package:ecommerce_app/app/modules/categories/bindings/categories_binding
 import 'package:ecommerce_app/app/modules/categories/views/categories_view.dart';
 import 'package:ecommerce_app/app/modules/login/bindings/login_binding.dart';
 import 'package:ecommerce_app/app/modules/login/views/login_view.dart';
+import 'package:ecommerce_app/app/modules/product_manage/bindings/product_manage_binding.dart';
+import 'package:ecommerce_app/app/modules/product_manage/views/Edit_Product/bindings/edit_product_binding.dart';
+import 'package:ecommerce_app/app/modules/product_manage/views/Edit_Product/views/edit_product_view.dart';
+import 'package:ecommerce_app/app/modules/product_manage/views/product_manage_view.dart';
 import 'package:ecommerce_app/app/modules/product_types/bindings/productTypesBinding.dart';
 import 'package:ecommerce_app/app/modules/product_types/views/productTypes_view.dart';
 import 'package:ecommerce_app/app/modules/register/bindings/register_bindings.dart';
@@ -93,6 +97,16 @@ class AppPages {
       name: _Paths.PRODUCT_TYPES,
       page: () => const ProducttypesView(),
       binding: ProductTypesBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCT_MANAGE,
+      page: () => const ProductManageView(),
+      binding: ProductManageBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCT_EDIT,
+      page: () => const EditProductView(),
+      binding: EditProductBinding(),
     ),
   ];
 }
