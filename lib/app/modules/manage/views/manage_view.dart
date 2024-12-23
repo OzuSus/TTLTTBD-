@@ -68,7 +68,10 @@ class ManageView extends GetView<ManageController> {
         if(title =='ProductManage'){
           Get.toNamed('/product-manage');
         }
-        Get.snackbar('Tapped', 'You tapped on $title'); // Hiển thị thông báo khi click
+        Get.snackbar('Tapped', 'You tapped on $title');
+        if(title =='CategoryManage'){
+          Get.offNamed(Routes.CATEGORY_MANAGE);
+        }
       },
       child: Container(
         decoration: BoxDecoration(

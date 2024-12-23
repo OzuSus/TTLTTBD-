@@ -1,0 +1,36 @@
+# Flutter specific files
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.generated/
+
+# Android specific files
+android/.gradle/
+android/.idea/
+android/local.properties
+android/app/proguard-rules.pro
+
+# iOS specific files
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+
+# Web specific files
+web/.dart_tool/
+
+# IDE specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# macOS specific files
+.DS_Store
+
+# Others
+*.log
+pubspec.lock
