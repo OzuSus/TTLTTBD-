@@ -18,226 +18,251 @@ class EditProductView extends GetView<EditProductController>{
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    // int? selectedCategoryId;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Obx(() {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
-          }
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 400.h,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEDF1FA),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30.r),
-                          bottomRight: Radius.circular(30.r),
+          }else{
+            int quantity = controller.product.quantity;
+            void handleQuantityChange(int newQuantity) {
+              quantity = newQuantity;
+              print('Số lượng hiện tại: $quantity'); // Debug để kiểm tra giá trị
+            }
+            int? selectedCategoryId = controller.product.categoryID;
+            final TextEditingController proNameController = TextEditingController(text: controller.product.name);
+            final TextEditingController proPriController = TextEditingController(text: controller.product.price.toString());
+            final TextEditingController proDesController = TextEditingController(text: controller.product.description);
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 400.h,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEDF1FA),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30.r),
+                            bottomRight: Radius.circular(30.r),
+                          ),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30.r),
+                            bottomRight: Radius.circular(30.r),
+                          ),
+                          child: Image.network(
+                            'http://localhost:8080/uploads/${controller.product.image}',
+                            fit: BoxFit.cover, // Đảm bảo ảnh lấp đầy container
+                            width: double.infinity,
+                            height: 450.h,
+                          ),
                         ),
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(30.r),
-                          bottomRight: Radius.circular(30.r),
+                      // Nút quay lại và yêu thích
+                      Positioned(
+                        top: 30.h,
+                        left: 20.w,
+                        right: 20.w,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RoundedButton(
+                              onPressed: () => Get.back(),
+                              child: SvgPicture.asset(Constants.backArrowIcon),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                controller.pickImage();
+                              },
+                              icon: const FaIcon(FontAwesomeIcons.image),
+                              iconSize: 40.h,
+                            ),
+                          ],
                         ),
-                        child: Image.asset(
-                          'assets/images/${controller.product.image}',
-                          fit: BoxFit.cover, // Đảm bảo ảnh lấp đầy container
-                          width: double.infinity,
-                          height: 450.h,
+                      ),
+                    ],
+                  ),
+                  10.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: TextField(
+                      controller: proNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Tên sản phẩm',
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF0FDA89),
+                          fontSize: 16,
                         ),
+                        hintText: 'Nhập tên sản phẩm',
+                        hintStyle: const TextStyle(
+                          fontSize: 18,
+                          color: Color(0xFF0FDA89),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0FDA89),
+                            // Màu viền khi không được kích hoạt
+                            width: 1.5,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0FDA89),
+                            // Màu viền khi được kích hoạt
+                            width: 2.0,
+                          ),
+                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                      ),
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                  ),
+                  10.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Số lượng :',
+                          style: theme.textTheme.displayMedium,
+                        ),
+                        30.horizontalSpace,
+                        QuantitySelector(quantity: quantity,onQuantityChanged: handleQuantityChange,),
+                      ],
+                    ),
+                  ),
+                  10.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Doanh mục sản phẩm :',
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                        CategoryDropdownSelector(
+                            categories: controller.categories,
+                            selectedCategoryId: controller.product.categoryID,
+                            onCategorySelected: (int ? id){
+                          selectedCategoryId =id;
+                        }),
+                      ],
+                    ),
+                  ),
+                  10.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: TextField(
+                      controller: proPriController,
+                      decoration: InputDecoration(
+                        labelText: 'Giá tiền',
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF0FDA89),
+                          fontSize: 16,
+                        ),
+                        hintText: 'Nhập giá sản phẩm',
+                        hintStyle: const TextStyle(
+                          fontSize: 18,
+                          color: Color(0xFF0FDA89),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0FDA89),
+                            // Màu viền khi không được kích hoạt
+                            width: 1.5,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0FDA89),
+                            // Màu viền khi được kích hoạt
+                            width: 2.0,
+                          ),
+                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                      ),
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                  ),
+                  10.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: TextField(
+                      maxLines: 5, // Số dòng tối đa
+                      controller: proDesController,
+                      decoration: InputDecoration(
+                        labelText: 'Mô tả sản phẩm',
+                        labelStyle: const TextStyle(
+                          color: Color(0xFF0FDA89),
+                          fontSize: 16,
+                        ),
+                        hintText: 'Nhập mô tả sản phẩm...',
+                        hintStyle: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0FDA89),
+                            width: 1.5,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0FDA89),
+                            width: 1.5,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF0FDA89),
+                            width: 2.0,
+                          ),
+                        ),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                      ),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
                       ),
                     ),
-                    // Nút quay lại và yêu thích
-                    Positioned(
-                      top: 30.h,
-                      left: 20.w,
-                      right: 20.w,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          RoundedButton(
-                            onPressed: () => Get.back(),
-                            child: SvgPicture.asset(Constants.backArrowIcon),
-                          ),
-                          IconButton(
-                            onPressed: () {
+                  ),
+                  10.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: CustomButton(
+                      text: 'Lưu thay đổi',
+                      onPressed: () {
+                        String name = proNameController.text;
+                        String price = proPriController.text;
+                        String des = proDesController.text;
 
-                            },
-                            icon: FaIcon(FontAwesomeIcons.image),
-                            iconSize: 40.h,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                10.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: TextField(
-                    controller: TextEditingController(text: controller.product.name),
-                    decoration: InputDecoration(
-                      labelText: 'Tên sản phẩm',
-                      labelStyle: const TextStyle(
-                        color: Color(0xFF0FDA89),
-                        fontSize: 16,
-                      ),
-                      hintText: 'Nhập tên sản phẩm',
-                      hintStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Color(0xFF0FDA89),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF0FDA89),
-                          // Màu viền khi không được kích hoạt
-                          width: 1.5,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF0FDA89),
-                          // Màu viền khi được kích hoạt
-                          width: 2.0,
-                        ),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                    ),
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                ),
-                10.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Số lượng :',
-                        style: theme.textTheme.displayMedium,
-                      ),
-                      30.horizontalSpace,
-                      QuantitySelector(quantity: controller.product.quantity,),
-                    ],
-                  ),
-                ),
-                10.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Doanh mục sản phẩm :',
-                        style: theme.textTheme.bodyMedium,
-                      ),
-                      CategoryDropdownSelector(categories: controller.categories),
-                    ],
-                  ),
-                ),
-                10.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: TextField(
-                    controller: TextEditingController(text: ''),
-                    decoration: InputDecoration(
-                      labelText: 'Giá tiền',
-                      labelStyle: const TextStyle(
-                        color: Color(0xFF0FDA89),
-                        fontSize: 16,
-                      ),
-                      hintText: 'Nhập giá sản phẩm',
-                      hintStyle: const TextStyle(
-                        fontSize: 18,
-                        color: Color(0xFF0FDA89),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF0FDA89),
-                          // Màu viền khi không được kích hoạt
-                          width: 1.5,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF0FDA89),
-                          // Màu viền khi được kích hoạt
-                          width: 2.0,
-                        ),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                    ),
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                ),
-                10.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: TextField(
-                    maxLines: 5, // Số dòng tối đa
-                    controller: TextEditingController(text: controller.product.description),
-                    decoration: InputDecoration(
-                      labelText: 'Mô tả sản phẩm',
-                      labelStyle: const TextStyle(
-                        color: Color(0xFF0FDA89),
-                        fontSize: 16,
-                      ),
-                      hintText: 'Nhập mô tả sản phẩm...',
-                      hintStyle: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF0FDA89),
-                          width: 1.5,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF0FDA89),
-                          width: 1.5,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF0FDA89),
-                          width: 2.0,
-                        ),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                    ),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
+                        if (selectedCategoryId == null) {
+                          Get.snackbar("Lỗi", "Vui lòng chọn danh mục sản phẩm!");
+                          return;
+                        }
+                        controller.editProduct(controller.product.id.toString(), name, price, des, quantity, selectedCategoryId.toString());
+                      },
                     ),
                   ),
-                ),
-                10.verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: CustomButton(
-                    text: 'Lưu thay đổi',
-                    onPressed: () {
-                      // Logic thêm vào giỏ hàng
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
+                ],
+              ),
+            );
+          }
         }),
       ),
     );

@@ -45,8 +45,8 @@ class ProductItem extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25.r),
-                  child: Image.asset(
-                    'assets/images/${product.image}',
+                  child: Image.network(
+                    'http://localhost:8080/uploads/${product.image}',
                     width: double.infinity,
                     height: 200.h,
                     fit: BoxFit.cover,

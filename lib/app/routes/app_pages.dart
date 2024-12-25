@@ -1,5 +1,10 @@
+import 'package:ecommerce_app/app/modules/account/bindings/account_binding.dart';
+import 'package:ecommerce_app/app/modules/account/views/account_view.dart';
 import 'package:ecommerce_app/app/modules/categories/bindings/categories_binding.dart';
 import 'package:ecommerce_app/app/modules/categories/views/categories_view.dart';
+import 'package:ecommerce_app/app/modules/category_manage/bindings/category_manage_binding.dart';
+import 'package:ecommerce_app/app/modules/category_manage/controllers/category_manage_controller.dart';
+import 'package:ecommerce_app/app/modules/category_manage/views/category_manage_view.dart';
 import 'package:ecommerce_app/app/modules/login/bindings/login_binding.dart';
 import 'package:ecommerce_app/app/modules/login/views/login_view.dart';
 import 'package:ecommerce_app/app/modules/product_manage/bindings/product_manage_binding.dart';
@@ -94,6 +99,16 @@ class AppPages {
       name: _Paths.MANAGE,
       page: () => const ManageView(),
       binding: ManageBinding(),
+    ),
+    GetPage(
+      name: _Paths.ACCOUNT,
+      page: () => const AccountView(),
+      binding: AccountBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORY_MANAGE,
+      page: () => const CategoryManageView(),
+      binding: CategoryManageBinding(),
     ),
     GetPage(
       name: _Paths.PRODUCT_TYPES,

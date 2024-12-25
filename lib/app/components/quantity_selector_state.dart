@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class QuantitySelector extends StatefulWidget {
   final int quantity;
-  const QuantitySelector({super.key,required this.quantity,});
+  final ValueChanged<int> onQuantityChanged;
+
+  const QuantitySelector({super.key,required this.quantity,required this.onQuantityChanged,});
 
   @override
   _QuantitySelectorState createState() => _QuantitySelectorState();
@@ -10,7 +12,6 @@ class QuantitySelector extends StatefulWidget {
 
 class _QuantitySelectorState extends State<QuantitySelector> {
   late int _quantity;
-
 
   @override
   void initState() {
@@ -21,6 +22,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
   void _increaseQuantity() {
     setState(() {
       _quantity++;
+      widget.onQuantityChanged(_quantity);
     });
   }
 
@@ -28,6 +30,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
     setState(() {
       if (_quantity > 1) {
         _quantity--;
+        widget.onQuantityChanged(_quantity);
       }
     });
   }

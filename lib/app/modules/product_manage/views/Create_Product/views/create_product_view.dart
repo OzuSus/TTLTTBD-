@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ecommerce_app/app/components/category_dropdown_selector.dart';
 import 'package:ecommerce_app/app/components/custom_button.dart';
 import 'package:ecommerce_app/app/components/quantity_selector_state.dart';
@@ -20,6 +22,18 @@ class CreateProductView extends GetView<CreateProductController>{
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
+    final TextEditingController _proNameController = TextEditingController();
+    final TextEditingController _proPriController = TextEditingController();
+    final TextEditingController _proDesController = TextEditingController();
+
+    int quantity = 0;
+    int? selectedCategoryId;
+
+    void handleQuantityChange(int newQuantity) {
+      quantity = newQuantity;
+    }
+
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -48,12 +62,23 @@ class CreateProductView extends GetView<CreateProductController>{
                           bottomLeft: Radius.circular(30.r),
                           bottomRight: Radius.circular(30.r),
                         ),
-                        child: Image.asset(
-                          'assets/images/product1.jpg',
-                          fit: BoxFit.cover, // Đảm bảo ảnh lấp đầy container
-                          width: double.infinity,
-                          height: 450.h,
-                        ),
+                        // child: Obx((){
+                        //   if(controller.selectedImage.value != null){
+                        //     return Image.file(
+                        //       File(controller.selectedImage.value!),
+                        //       height: 400.h,
+                        //       fit: BoxFit.cover,
+                        //     );
+                        //   }else{
+                        //     return Image.asset(
+                        //       'assets/images/product1.jpg', // Ảnh mặc định
+                        //       fit: BoxFit.cover,
+                        //       width: double.infinity,
+                        //       height: 450.h,
+                        //     );
+                        //   }
+                        //
+                        // }),
                       ),
                     ),
                     // Nút quay lại và yêu thích
@@ -70,9 +95,9 @@ class CreateProductView extends GetView<CreateProductController>{
                           ),
                           IconButton(
                             onPressed: () {
-
+                              controller.pickImage();
                             },
-                            icon: FaIcon(FontAwesomeIcons.image),
+                            icon: const FaIcon(FontAwesomeIcons.image),
                             iconSize: 40.h,
                           ),
                         ],
@@ -84,7 +109,7 @@ class CreateProductView extends GetView<CreateProductController>{
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: TextField(
-                    controller: TextEditingController(text: ''),
+                    controller: _proNameController,
                     decoration: InputDecoration(
                       labelText: 'Tên sản phẩm',
                       labelStyle: const TextStyle(
@@ -127,7 +152,7 @@ class CreateProductView extends GetView<CreateProductController>{
                         style: theme.textTheme.displayMedium,
                       ),
                       30.horizontalSpace,
-                      QuantitySelector(quantity: 0,),
+                      QuantitySelector(quantity: quantity,onQuantityChanged: handleQuantityChange,),
                     ],
                   ),
                 ),
@@ -140,7 +165,9 @@ class CreateProductView extends GetView<CreateProductController>{
                         'Doanh mục sản phẩm :',
                         style: theme.textTheme.bodyMedium,
                       ),
-                      CategoryDropdownSelector(categories: controller.categories),
+                      CategoryDropdownSelector(categories: controller.categories,onCategorySelected: (int ? id){
+                        selectedCategoryId =id;
+                      }),
                     ],
                   ),
                 ),
@@ -148,7 +175,7 @@ class CreateProductView extends GetView<CreateProductController>{
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: TextField(
-                    controller: TextEditingController(text: ''),
+                    controller: _proPriController,
                     decoration: InputDecoration(
                       labelText: 'Giá tiền',
                       labelStyle: const TextStyle(
@@ -186,7 +213,7 @@ class CreateProductView extends GetView<CreateProductController>{
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: TextField(
                     maxLines: 3, // Số dòng tối đa
-                    controller: TextEditingController(text: ''),
+                    controller: _proDesController,
                     decoration: InputDecoration(
                       labelText: 'Mô tả sản phẩm',
                       labelStyle: const TextStyle(
@@ -196,7 +223,7 @@ class CreateProductView extends GetView<CreateProductController>{
                       hintText: 'Nhập mô tả sản phẩm...',
                       hintStyle: const TextStyle(
                         fontSize: 14,
-                        color: Colors.grey,
+                        color: Color(0xFF0FDA89),
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
@@ -233,7 +260,16 @@ class CreateProductView extends GetView<CreateProductController>{
                   child: CustomButton(
                     text: 'Tạo mới sản phẩm',
                     onPressed: () {
-                      // Logic thêm vào giỏ hàng
+                      String name = _proNameController.text;
+                      String price = _proPriController.text;
+                      String des = _proDesController.text;
+
+                      if (selectedCategoryId == null) {
+                        Get.snackbar("Lỗi", "Vui lòng chọn danh mục sản phẩm!");
+                        return;
+                      }
+
+                      controller.createProduct(name, price, des, quantity, selectedCategoryId.toString());
                     },
                   ),
                 ),

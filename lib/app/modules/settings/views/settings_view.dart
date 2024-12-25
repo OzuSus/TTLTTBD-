@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -49,6 +50,9 @@ class SettingsView extends GetView<SettingsController> {
                           : null,
                       icon: Constants.userIcon,
                       isAccount: true,
+                      onTap: () {
+                        Get.offNamed(Routes.ACCOUNT);
+                      },
                     ),
                     if (user != null && user['role'] == true) ...[
                       25.verticalSpace,
