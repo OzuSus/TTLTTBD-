@@ -17,6 +17,9 @@ class ApiUrl {
   static const getAllProducts = 'http://localhost:8080/api/products';
   static const getProductById = 'http://localhost:8080/api/products/id?id=10';
   static const getAllProductInFavoriteListByUserId = 'http://localhost:8080/api/favorites/user/2';
+  static const createProduct = 'http://localhost:8080/api/products/createProduct';
+  static const updateProductById = 'http://localhost:8080/api/products/editProduct/45';
+  static const deleteProductById = 'http://localhost:8080/api/products/deleteProduct';
 
   //FAVORITE
   static const addFavoriteProduct = 'http://localhost:8080/api/favorites/add?userId=3&productId=8';
