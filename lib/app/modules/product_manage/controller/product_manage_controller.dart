@@ -13,6 +13,11 @@ class ProductManageController extends GetxController{
     super.onInit();
     fetchProducts();
   }
+  @override
+  void onReady() {
+    super.onReady();
+    ever(products, (_) => fetchProducts());
+  }
 
   void fetchProducts() async {
     try {
@@ -45,6 +50,13 @@ class ProductManageController extends GetxController{
     } catch (e) {
       Get.snackbar('Lỗi', 'Đã xảy ra lỗi khi xóa sản phẩm', snackPosition: SnackPosition.BOTTOM);
       print(e);
+    }
+  }
+  void handleUpdatedProduct(Product updatedProduct) {
+    final index = products.indexWhere((p) => p.id == updatedProduct.id);
+    if (index != -1) {
+      products[index] = updatedProduct;
+      products.refresh();
     }
   }
 

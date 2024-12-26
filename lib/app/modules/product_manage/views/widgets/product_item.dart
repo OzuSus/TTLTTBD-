@@ -31,20 +31,20 @@ class ProductItem extends StatelessWidget {
             MediaQuery.of(context).size.height - details.globalPosition.dy,
           ),
           items: [
-            PopupMenuItem(
+            const PopupMenuItem(
               value: 'edit',
               child: Row(
-                children: const [
+                children: [
                   Icon(Icons.edit, color: Colors.blue),
                   SizedBox(width: 10),
                   Text('Chỉnh sửa'),
                 ],
               ),
             ),
-            PopupMenuItem(
+            const PopupMenuItem(
               value: 'delete',
               child: Row(
-                children: const [
+                children: [
                   Icon(Icons.delete, color: Colors.red),
                   SizedBox(width: 10),
                   Text('Xóa'),
@@ -86,8 +86,8 @@ class ProductItem extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25.r),
-                  child: Image.asset(
-                    'assets/images/${product.image}',
+                  child: Image.network(
+                    'http://localhost:8080/uploads/${product.image}',
                     width: double.infinity,
                     height: 200.h,
                     fit: BoxFit.cover,
