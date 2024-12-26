@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:ecommerce_app/app/models/category.dart';
+import 'package:ecommerce_app/app/modules/product_manage/controller/product_manage_controller.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -86,7 +87,13 @@ class CreateProductController extends GetxController{
       final response = await request.send();
 
       if (response.statusCode == 200) {
-        // categories.add({'name': name, 'image': selectedImagePath.value});
+        final responseBody = await response.stream.bytesToString();
+        final jsonData = json.decode(responseBody);
+        final newProduct = Product.fromJson(jsonData);
+
+        final productManageController = Get.find<ProductManageController>();
+        productManageController.products.add(newProduct);
+
         selectedImagePath.value = '';
         selectedImageFile = null;
         Get.back();

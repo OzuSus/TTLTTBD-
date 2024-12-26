@@ -6,6 +6,7 @@ import 'package:ecommerce_app/app/modules/product_details/views/widgets/rounded_
 import 'package:ecommerce_app/app/modules/product_manage/views/Edit_Product/controller/edit_product_controller.dart';
 import 'package:ecommerce_app/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -193,6 +194,10 @@ class EditProductView extends GetView<EditProductController>{
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                       ),
                       style: theme.textTheme.bodyLarge,
+                      keyboardType:const TextInputType.numberWithOptions(decimal: true),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,3}$')),
+                      ],
                     ),
                   ),
                   10.verticalSpace,

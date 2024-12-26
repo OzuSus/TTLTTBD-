@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class QuantitySelector extends StatefulWidget {
   final int quantity;
@@ -73,6 +74,10 @@ class _QuantitySelectorState extends State<QuantitySelector> {
                 ),
               ),
               style: const TextStyle(fontSize: 18, color: Color(0xFF0FDA89)),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^(?:[1-9]|[1-9][0-9]{1,2}|500)$')),
+              ],
+              keyboardType: TextInputType.number,
             ),
           ),
         ),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:ecommerce_app/app/models/category.dart';
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ecommerce_app/app/models/product.dart';
@@ -103,10 +104,14 @@ class EditProductController extends GetxController{
       final response = await request.send();
 
       if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final updatedData = jsonDecode(responseBody);
+        product = Product.fromJson(updatedData);
         // Reset lại trạng thái hình ảnh sau khi thành công
         selectedImagePath.value = '';
         selectedImageFile = null;
-        Get.back();
+        Get.snackbar('Success', 'Product updated successfully');
+        Get.toNamed(Routes.PRODUCT_MANAGE);
       } else {
         Get.snackbar('Error', 'Failed to update product');
       }
