@@ -12,6 +12,8 @@ class ApiUrl {
   static const getCategoryById = 'http://localhost:8080/api/categories/id?id=4';
   static const addCategory = 'http://localhost:8080/api/categories/add';
   static const updateCategoryById = 'http://localhost:8080/api/categories/update/16';
+  static const updateNameCategory = 'http://localhost:8080/api/categories/updateNameCategory/25';
+  static const updateImageCategory = 'http://localhost:8080/api/categories/updateImageCategory/25';
 
   //PRODUCT
   static const getAllProducts = 'http://localhost:8080/api/products';
