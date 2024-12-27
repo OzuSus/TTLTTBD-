@@ -1,15 +1,20 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:ecommerce_app/app/models/category.dart';
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ecommerce_app/app/models/product.dart';
+import 'package:file_picker/file_picker.dart';
 
 
 class EditProductController extends GetxController{
   late Product product;
   var categories = <Category>[].obs;
   final isLoading = true.obs;
+  var selectedImagePath = ''.obs;
+  Uint8List? selectedImageFile;
 
   @override
   void onInit() {
@@ -53,4 +58,66 @@ class EditProductController extends GetxController{
       isLoading(false);
     }
   }
+
+  Future<void> pickImage() async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
+      if (result != null) {
+        selectedImagePath.value = result.files.single.name;
+        selectedImageFile = result.files.single.bytes;
+      } else {
+        Get.snackbar('Error', 'No image selected');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An error occurred: $e');
+    }
+  }
+
+
+  Future<void> editProduct(String id, String name, String price, String des, int quantity, String idCategory) async {
+    String _quantity = quantity.toString();
+
+    try {
+      final request = http.MultipartRequest(
+        'PUT',
+        Uri.parse('http://localhost:8080/api/products/editProduct/$id'),
+      );
+      request.fields['name'] = name;
+      request.fields['quantity'] = _quantity;
+      request.fields['prize'] = price;
+      request.fields['description'] = des;
+      request.fields['id_category'] = idCategory;
+
+      // Chỉ thêm ảnh nếu có ảnh được chọn
+      if (selectedImageFile != null) {
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'image',
+            selectedImageFile!,
+            filename: selectedImagePath.value,
+          ),
+        );
+      }
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final updatedData = jsonDecode(responseBody);
+        product = Product.fromJson(updatedData);
+        // Reset lại trạng thái hình ảnh sau khi thành công
+        selectedImagePath.value = '';
+        selectedImageFile = null;
+        Get.snackbar('Success', 'Product updated successfully');
+        Get.toNamed(Routes.PRODUCT_MANAGE);
+      } else {
+        Get.snackbar('Error', 'Failed to update product');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An error occurred: $e');
+    }
+  }
+
 }

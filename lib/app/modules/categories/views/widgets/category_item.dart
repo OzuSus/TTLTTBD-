@@ -38,8 +38,8 @@ class CategoryItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15.r),
               ),
               child: Center(
-                child: Image.asset(
-                  'assets/images/$imageName',
+                child: Image.network(
+                  'http://localhost:8080/uploads/$imageName',
                   fit: BoxFit.cover,
                 ),
               ),
