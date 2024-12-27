@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:ecommerce_app/app/modules/categories/controllers/categories_controller.dart';
 import 'package:ecommerce_app/app/modules/category_manage/controllers/category_manage_controller.dart';
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class CategoryManageView extends GetView<CategoryManageView> {
   const CategoryManageView({Key? key}) : super(key: key);
@@ -28,7 +31,7 @@ class CategoryManageView extends GetView<CategoryManageView> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.arrow_back, color: Colors.deepPurpleAccent),
-                      onPressed: () => Get.back(),
+                      onPressed: () => Get.offNamed(Routes.MANAGE),
                     ),
                     const Expanded(
                       child: Text(
@@ -138,7 +141,6 @@ class CategoryManageView extends GetView<CategoryManageView> {
   }
 
   void _showAddCategoryDialog(BuildContext context, CategoryManageController controller) {
-    // Reset selected image details
     controller.selectedImagePath.value = '';
     controller.selectedImageFile = null;
 
@@ -208,7 +210,7 @@ class CategoryManageView extends GetView<CategoryManageView> {
                       controller.selectedImageFile != null) {
                     controller.addCategory(nameController.text);
                   } else {
-                    Get.snackbar('Error', 'Please fill all fields and select an image');
+                    Get.snackbar('Lỗi', 'Chưa nhập name và chọn ảnh');
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -232,10 +234,9 @@ class CategoryManageView extends GetView<CategoryManageView> {
   }
 
 
-  void _showUpdateCategoryDialog(
-      BuildContext context, CategoryManageController controller, int index) {
-    final nameController =
-    TextEditingController(text: controller.categories[index]['name']);
+  void _showUpdateCategoryDialog(BuildContext context, CategoryManageController controller, int index) {
+    final nameController = TextEditingController(text: controller.categories[index]['name']);
+    final categoryId = controller.categories[index]['id'];
 
     Get.defaultDialog(
       title: "Update Category",
@@ -248,9 +249,8 @@ class CategoryManageView extends GetView<CategoryManageView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Hộp chứa hình ảnh
             GestureDetector(
-              onTap: () => controller.pickImage(),
+              onTap: () => controller.pickImageUpdate(categoryId),
               child: Obx(() {
                 final imagePath = controller.selectedImagePath.value.isEmpty
                     ? controller.categories[index]['image']
@@ -268,7 +268,7 @@ class CategoryManageView extends GetView<CategoryManageView> {
                     borderRadius: BorderRadius.circular(12),
                     child: Image.network(
                       imagePath,
-                      fit: BoxFit.cover, // Đảm bảo ảnh vừa khung
+                      fit: BoxFit.cover,
                       width: 50,
                       height: 100,
                     ),
@@ -288,10 +288,8 @@ class CategoryManageView extends GetView<CategoryManageView> {
                 );
               }),
             ),
-
             const SizedBox(height: 20),
 
-            // Input tên category
             TextField(
               controller: nameController,
               decoration: InputDecoration(
@@ -313,15 +311,32 @@ class CategoryManageView extends GetView<CategoryManageView> {
             ),
             const SizedBox(height: 20),
 
-            // Nút cập nhật
             ElevatedButton(
-              onPressed: () {
-                final newImagePath = controller.selectedImagePath.value.isEmpty
-                    ? controller.categories[index]['image'] ?? ''
-                    : controller.selectedImagePath.value;
+              onPressed: () async {
+                final newName = nameController.text.trim();
+                try {
+                  final response = await http.put(
+                    Uri.parse('http://localhost:8080/api/categories/updateNameCategory/$categoryId'),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: {'name': newName},
+                  );
+                  if (response.statusCode == 200) {
+                    if (Get.isDialogOpen == true) {
+                      Get.back();
+                    }
+                    Get.snackbar('Thành công', 'Cập nhập category thành công');
 
-                controller.updateCategory(index, nameController.text, newImagePath);
-                Get.back(); // Đóng hộp thoại
+                    Get.back();
+                    controller.fetchCategories();
+                    final categoryController = Get.find<CategoryController>();
+                    categoryController.onInit();
+                  } else {
+                    Get.snackbar('Lỗi', 'ko thể cập nhập name category');
+                  }
+                } catch (e) {
+                  print("Error occurred: $e");
+                  Get.snackbar('Error', 'An error occurred: $e');
+                }
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -341,7 +356,5 @@ class CategoryManageView extends GetView<CategoryManageView> {
       ),
     );
   }
-
-
 }
 
