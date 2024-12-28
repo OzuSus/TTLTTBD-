@@ -72,6 +72,9 @@ class ManageView extends GetView<ManageController> {
         if(title =='CategoryManage'){
           Get.offNamed(Routes.CATEGORY_MANAGE);
         }
+        if(title =='OrderManage'){
+          Get.toNamed('/order-manage');
+        }
       },
       child: Container(
         decoration: BoxDecoration(

@@ -18,6 +18,12 @@ import 'package:ecommerce_app/app/modules/product_types/views/productTypes_view.
 import 'package:ecommerce_app/app/modules/register/bindings/register_bindings.dart';
 import 'package:ecommerce_app/app/modules/register/views/register_view.dart';
 import 'package:get/get.dart';
+import 'package:ecommerce_app/app/modules/order_manage/views/order_manage_view.dart';
+import 'package:ecommerce_app/app/modules/order_manage/bindings/order_manage_binding.dart';
+import 'package:ecommerce_app/app/modules/order_manage/controllers/order_manage_controller.dart';
+
+
+
 
 import '../modules/base/bindings/base_binding.dart';
 import '../modules/base/views/base_view.dart';
@@ -130,5 +136,11 @@ class AppPages {
       page: () => const CreateProductView(),
       binding: CreateProductBinding(),
     ),
+    GetPage(
+      name: _Paths.ORDER_MANAGE,
+      page: () => const OrderManageView(),
+      binding: OrderManageBinding(),
+    ),
   ];
 }
+

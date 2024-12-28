@@ -21,6 +21,11 @@ abstract class Routes {
   static const PRODUCT_MANAGE =_Paths.PRODUCT_MANAGE;
   static const PRODUCT_EDIT =_Paths.PRODUCT_EDIT;
   static const PRODUCT_CREATE =_Paths.PRODUCT_CREATE;
+
+  static const ORDER_MANAGE =_Paths.ORDER_MANAGE;
+
+
+
 }
 
 abstract class _Paths {
@@ -42,4 +47,9 @@ abstract class _Paths {
   static const PRODUCT_MANAGE = '/product-manage';
   static const PRODUCT_EDIT = '/product-edit';
   static const PRODUCT_CREATE = '/product-create';
+  static const ORDER_MANAGE = '/order-manage';
+
+
+
+
 }
