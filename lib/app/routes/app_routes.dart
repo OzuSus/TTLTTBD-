@@ -23,6 +23,7 @@ abstract class Routes {
   static const PRODUCT_CREATE =_Paths.PRODUCT_CREATE;
 
   static const ORDER_MANAGE =_Paths.ORDER_MANAGE;
+  static const PURCHASE_HISTORY =_Paths.PURCHASE_HISTORY;
 
 
 
@@ -48,6 +49,7 @@ abstract class _Paths {
   static const PRODUCT_EDIT = '/product-edit';
   static const PRODUCT_CREATE = '/product-create';
   static const ORDER_MANAGE = '/order-manage';
+  static const PURCHASE_HISTORY = '/purchase-history';
 
 
 

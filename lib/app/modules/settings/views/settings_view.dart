@@ -61,16 +61,19 @@ class SettingsView extends GetView<SettingsController> {
                         icon: Constants.clipboardIcon,
                         onTap: () => controller.navigateToManage(),
                       ),
+                      25.verticalSpace,
+                      SettingsItem(
+                        title: 'Purchase History',
+                        icon: Constants.clipboardIcon,  // You can use a custom icon from your constants file
+                        onTap: () => controller.navigateToPurchaseHistory(),
+                      ),
+
                     ],
                   ],
                 );
               },
             ),
-            // 25.verticalSpace,
-            // const SettingsItem(
-            //   title: 'Manage',
-            //   icon: Constants.languageIcon,
-            // ),
+
 
             30.verticalSpace,
             Text(

@@ -1,172 +1,147 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../controllers/order_manage_controller.dart';
+import 'package:ecommerce_app/app/modules/order_manage/views/View_Details/views/order_details_view.dart';
+import 'package:ecommerce_app/app/modules/order_manage/views/Edit_Order/views/edit_order_view.dart';
+import 'package:ecommerce_app/app/modules/order_manage/views/Cancel_Order/views/cancel_order_view.dart';
 
-class OrderManageView extends GetView<OrderManageController> {
+class OrderManageView extends StatefulWidget {
   const OrderManageView({Key? key}) : super(key: key);
+
+  @override
+  _OrderManageViewState createState() => _OrderManageViewState();
+}
+
+class _OrderManageViewState extends State<OrderManageView> {
+  List<Map<String, dynamic>> orders = [
+    {
+      "id": "ORD001",
+      "date": "2024-12-30",
+      "status": "Pending",
+      "total": "\$150.00",
+      "items": [
+        {"name": "Product A", "quantity": 2, "price": 50},
+        {"name": "Product B", "quantity": 1, "price": 50},
+      ]
+    },
+    {
+      "id": "ORD002",
+      "date": "2024-12-30",
+      "status": "Pending",
+      "total": "\$150.00",
+      "items": [
+        {"name": "Product A", "quantity": 2, "price": 50},
+        {"name": "Product B", "quantity": 1, "price": 50},
+      ]
+    },
+    {
+      "id": "ORD003",
+      "date": "2024-12-30",
+      "status": "Pending",
+      "total": "\$150.00",
+      "items": [
+        {"name": "Product A", "quantity": 2, "price": 50},
+        {"name": "Product B", "quantity": 1, "price": 50},
+      ]
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quản lý Đơn Hàng'),
+        title: const Text('Manage Orders'),
+        centerTitle: true,
       ),
-      body: CustomerOrderScreen(),
-    );
-  }
-}
-
-class CustomerOrderScreen extends StatefulWidget {
-  @override
-  _CustomerOrderScreenState createState() => _CustomerOrderScreenState();
-}
-
-class _CustomerOrderScreenState extends State<CustomerOrderScreen> {
-  final List<Customer> _customers = [];
-  final TextEditingController _customerNameController = TextEditingController();
-  final TextEditingController _orderDetailsController = TextEditingController();
-  final TextEditingController _orderQuantityController = TextEditingController();
-  final TextEditingController _customerAddressController = TextEditingController();
-
-  void _addCustomer(String name) {
-    if (name.isNotEmpty) {
-      setState(() {
-        _customers.add(Customer(name: name));
-      });
-      _customerNameController.clear();
-    }
-  }
-
-  void _addOrder(int customerIndex, String details, int quantity, String address) {
-    if (details.isNotEmpty && quantity > 0 && address.isNotEmpty) {
-      setState(() {
-        _customers[customerIndex].orders.add(Order(details: details, quantity: quantity, address: address));
-      });
-      _orderDetailsController.clear();
-      _orderQuantityController.clear();
-      _customerAddressController.clear();
-    }
-  }
-
-  void _removeOrder(int customerIndex, int orderIndex) {
-    setState(() {
-      _customers[customerIndex].orders.removeAt(orderIndex);
-    });
-  }
-
-  Widget _buildCustomerList() {
-    return _customers.isEmpty
-        ? Center(child: Text("Chưa có khách hàng nào"))
-        : ListView.separated(
-      itemCount: _customers.length,
-      itemBuilder: (context, index) {
-        return ExpansionTile(
-          title: Text(_customers[index].name),
-          children: [
-            if (_customers[index].orders.isEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("Chưa có đơn hàng nào"),
-              ),
-            ..._customers[index].orders.map((order) {
-              int orderIndex = _customers[index].orders.indexOf(order);
-              return Card(
-                margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: ListTile(
-                  title: Text('Chi tiết: ${order.details}'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Số lượng: ${order.quantity}'),
-                      Text('Địa chỉ: ${order.address}'),
-                    ],
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () => _removeOrder(index, orderIndex),
-                  ),
-                ),
-              );
-            }).toList(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
+      body: ListView.builder(
+        itemCount: orders.length,
+        itemBuilder: (context, index) {
+          final order = orders[index];
+          return Card(
+            margin: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title: Text('Order ID: ${order["id"]}'),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextField(
-                    controller: _orderDetailsController,
-                    decoration: InputDecoration(labelText: 'Chi tiết'),
-                  ),
-                  TextField(
-                    controller: _orderQuantityController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: 'Số lượng'),
-                  ),
-                  TextField(
-                    controller: _customerAddressController,
-                    decoration: InputDecoration(labelText: 'Địa chỉ'),
-                  ),
-                  SizedBox(height: 8.0),
-                  ElevatedButton(
-                    onPressed: () => _addOrder(
-                      index,
-                      _orderDetailsController.text,
-                      int.tryParse(_orderQuantityController.text) ?? 0,
-                      _customerAddressController.text,
-                    ),
-                    child: Text('Thêm Đơn Hàng'),
-                  ),
+                  Text('Date: ${order["date"]}'),
+                  Text('Status: ${order["status"]}'),
+                  Text('Total: ${order["total"]}'),
                 ],
               ),
+              trailing: IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed: () {
+                  _showOrderActions(context, order);
+                },
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _showOrderActions(BuildContext context, Map<String, dynamic> order) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.remove_red_eye),
+              title: const Text('View Details'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderDetailsView(order: order),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit Order'),
+              onTap: () async {
+                Navigator.pop(context);
+                final updatedOrder = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditOrderView(order: order),
+                  ),
+                );
+                if (updatedOrder != null) {
+                  setState(() {
+                    order.addAll(updatedOrder);
+                  });
+                }
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: const Text('Cancel Order'),
+              onTap: () async {
+                Navigator.pop(context);
+                final cancellationData = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CancelOrderView(order: order),
+                  ),
+                );
+                if (cancellationData != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Order ${cancellationData["orderId"]} cancelled for reason: ${cancellationData["reason"]}',
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ],
         );
       },
-      separatorBuilder: (context, index) {
-        return Divider();
-      },
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _customerNameController,
-                  decoration: InputDecoration(labelText: 'Thêm đơn hàng mới'),
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _addCustomer(_customerNameController.text),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: _buildCustomerList(),
-        ),
-      ],
-    );
-  }
-}
-
-class Customer {
-  String name;
-  List<Order> orders = [];
-
-  Customer({required this.name});
-}
-
-class Order {
-  String details;
-  int quantity;
-  String address;
-
-  Order({required this.details, required this.quantity, required this.address});
 }

@@ -20,8 +20,6 @@ import 'package:ecommerce_app/app/modules/register/views/register_view.dart';
 import 'package:get/get.dart';
 import 'package:ecommerce_app/app/modules/order_manage/views/order_manage_view.dart';
 import 'package:ecommerce_app/app/modules/order_manage/bindings/order_manage_binding.dart';
-import 'package:ecommerce_app/app/modules/order_manage/controllers/order_manage_controller.dart';
-
 
 
 
