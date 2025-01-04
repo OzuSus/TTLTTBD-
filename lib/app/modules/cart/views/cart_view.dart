@@ -14,7 +14,6 @@ import 'widgets/cart_item.dart';
 
 class CartView extends GetView<CartController> {
   const CartView({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -44,6 +43,301 @@ class CartView extends GetView<CartController> {
                     shrinkWrap: true,
                     primary: false,
                   ),
+              50.verticalSpace,
+              Visibility(
+                visible: controller.products.isNotEmpty,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Thông tin giao hàng',
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    15.verticalSpace,
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(15.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          // Tên người nhận
+                          Container(
+                            padding: EdgeInsets.all(15.r),
+                            margin: EdgeInsets.only(bottom: 10.h),
+                            decoration: BoxDecoration(
+                              color:  Color(0xFFE3E3E3),
+                              borderRadius: BorderRadius.circular(10.r),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.person, color: theme.primaryColor),
+                                SizedBox(width: 10.w),
+                                Expanded(
+                                  child: Text(
+                                    controller.user?.fullname ?? 'Loading...',
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black26
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Số điện thoại
+                          Container(
+                            padding: EdgeInsets.all(15.r),
+                            margin: EdgeInsets.only(bottom: 10.h),
+                            decoration: BoxDecoration(
+                              color:  Color(0xFFE3E3E3),
+                              borderRadius: BorderRadius.circular(10.r),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.email, color: theme.primaryColor),
+                                SizedBox(width: 10.w),
+                                Expanded(
+                                  child: Text(
+                                      controller.user?.email ?? 'Loading...',
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black26
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Địa chỉ
+                          Container(
+                            padding: EdgeInsets.all(15.r),
+                            margin: EdgeInsets.only(bottom: 10.h),
+                            decoration: BoxDecoration(
+                              color:  Color(0xFFE3E3E3),
+                              borderRadius: BorderRadius.circular(10.r),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.phone, color: theme.primaryColor),
+                                SizedBox(width: 10.w),
+                                Expanded(
+                                  child: Text(
+                                      controller.user?.phone ?? 'Loading...',
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black26
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Email
+                          Container(
+                            padding: EdgeInsets.all(15.r),
+                            decoration: BoxDecoration(
+                              color:  Color(0xFFE3E3E3),
+                              borderRadius: BorderRadius.circular(10.r),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.home, color: theme.primaryColor),
+                                SizedBox(width: 10.w),
+                                Expanded(
+                                  child: Text(
+                                      controller.user?.address ?? 'Loading...',
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black26
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              40.verticalSpace,
+              Visibility(
+                visible: controller.products.isNotEmpty,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Phương thức thanh toán',
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    15.verticalSpace,
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(15.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: GetBuilder<CartController>(
+                        id: 'PaymentMethod',
+                        builder: (controller) => Column(
+                          children: [
+                            // Mỗi phương thức nằm trong một Container riêng biệt
+                            Container(
+                              padding: EdgeInsets.all(15.r),
+                              margin: EdgeInsets.only(bottom: 10.h),
+                              decoration: BoxDecoration(
+                                color: Colors.white, // Nền trắng cho từng ô
+                                borderRadius: BorderRadius.circular(10.r), // Bo góc từng ô
+                                border: Border.all(
+                                  color: Colors.grey.shade300, // Viền màu xám nhạt
+                                  width: 1,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Radio<String>(
+                                    value: 'COD',
+                                    groupValue: controller.selectedPaymentMethod,
+                                    onChanged: (value) =>
+                                        controller.onPaymentMethodChanged(value!),
+                                    activeColor: theme.primaryColor,
+                                  ),
+                                  SizedBox(width: 10.w), // Khoảng cách bên trái
+                                  Expanded(
+                                    child: Text(
+                                      'Cash on Delivery (COD)',
+                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                        fontSize: 18.sp, // Tăng cỡ chữ
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(15.r),
+                              margin: EdgeInsets.only(bottom: 10.h),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.r),
+                                border: Border.all(
+                                  color: Colors.grey.shade300,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Radio<String>(
+                                    value: 'Banking',
+                                    groupValue: controller.selectedPaymentMethod,
+                                    onChanged: (value) =>
+                                        controller.onPaymentMethodChanged(value!),
+                                    activeColor: theme.primaryColor,
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  Expanded(
+                                    child: Text(
+                                      'Bank Transfer',
+                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                        fontSize: 18.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(15.r),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.r),
+                                border: Border.all(
+                                  color: Colors.grey.shade300,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Radio<String>(
+                                    value: 'QRCode',
+                                    groupValue: controller.selectedPaymentMethod,
+                                    onChanged: (value) =>
+                                        controller.onPaymentMethodChanged(value!),
+                                    activeColor: theme.primaryColor,
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  Expanded(
+                                    child: Text(
+                                      'QR Code Payment',
+                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                        fontSize: 18.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+
               30.verticalSpace,
               Visibility(
                 visible: controller.products.isNotEmpty,
@@ -75,21 +369,25 @@ class CartView extends GetView<CartController> {
                           fontSize: 18.sp,
                         )),
                         10.verticalSpace,
-                        Text(
-                          '\$${controller.total.toStringAsFixed(2)}',
-                          style: theme.textTheme.displayLarge?.copyWith(
-                            decoration: TextDecoration.underline,
-                            decorationColor: theme.primaryColor.withOpacity(0.5),
-                            decorationThickness: 1,
-                            color: Colors.transparent,
-                            shadows: [
-                              Shadow(
-                                color: theme.textTheme.displayLarge!.color!,
-                                offset: const Offset(0, -5)
-                              ),
-                            ],
+                        GetBuilder<CartController>(
+                          id: 'TotalPrice',
+                          builder: (controller) => Text(
+                            '\$${controller.total.toStringAsFixed(2)}',
+                            style: theme.textTheme.displayLarge?.copyWith(
+                              decoration: TextDecoration.underline,
+                              decorationColor: theme.primaryColor.withOpacity(0.5),
+                              decorationThickness: 1,
+                              color: Colors.transparent,
+                              shadows: [
+                                Shadow(
+                                  color: theme.textTheme.displayLarge!.color!,
+                                  offset: const Offset(0, -5),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
+
                       ],
                     ),
                   ],
