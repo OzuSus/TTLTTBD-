@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/utils/CustomScrollBehavior.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ Future<void> main() async {
       useInheritedMediaQuery: true,
       builder: (context, widget) {
         return GetMaterialApp(
-       
+          scrollBehavior: CustomScrollBehavior(),
           useInheritedMediaQuery: true,
              title: "E-commerce App",
           debugShowCheckedModeBanner: false,
