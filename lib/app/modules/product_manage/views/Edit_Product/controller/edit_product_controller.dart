@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:ecommerce_app/app/models/category.dart';
+import 'package:ecommerce_app/app/modules/home/controllers/home_controller.dart';
+import 'package:ecommerce_app/app/modules/product_manage/controller/product_manage_controller.dart';
 import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -111,6 +113,10 @@ class EditProductController extends GetxController{
         selectedImagePath.value = '';
         selectedImageFile = null;
         Get.snackbar('Success', 'Product updated successfully');
+        final homeController = Get.find<HomeController>();
+        homeController.onInit();
+        final productManageController = Get.find<ProductManageController>();
+        productManageController.onInit();
         Get.toNamed(Routes.PRODUCT_MANAGE);
       } else {
         Get.snackbar('Error', 'Failed to update product');

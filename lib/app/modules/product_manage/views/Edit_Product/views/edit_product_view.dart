@@ -4,6 +4,7 @@ import 'package:ecommerce_app/app/components/quantity_selector_state.dart';
 import 'package:ecommerce_app/app/models/category.dart';
 import 'package:ecommerce_app/app/modules/product_details/views/widgets/rounded_button.dart';
 import 'package:ecommerce_app/app/modules/product_manage/views/Edit_Product/controller/edit_product_controller.dart';
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:ecommerce_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,7 +76,7 @@ class EditProductView extends GetView<EditProductController>{
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             RoundedButton(
-                              onPressed: () => Get.back(),
+                              onPressed: () => Get.offNamed(Routes.PRODUCT_MANAGE),
                               child: SvgPicture.asset(Constants.backArrowIcon),
                             ),
                             IconButton(

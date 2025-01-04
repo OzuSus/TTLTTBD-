@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:ecommerce_app/app/models/category.dart';
+import 'package:ecommerce_app/app/modules/home/controllers/home_controller.dart';
 import 'package:ecommerce_app/app/modules/product_manage/controller/product_manage_controller.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
@@ -93,7 +94,8 @@ class CreateProductController extends GetxController{
 
         final productManageController = Get.find<ProductManageController>();
         productManageController.products.add(newProduct);
-
+        final homeController = Get.find<HomeController>();
+        homeController.onInit();
         selectedImagePath.value = '';
         selectedImageFile = null;
         Get.back();
