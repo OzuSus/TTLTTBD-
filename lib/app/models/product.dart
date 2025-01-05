@@ -21,6 +21,30 @@ class Product {
     required this.categoryID,
   });
 
+  // copyWith để cập nhật dữ liệu
+  Product copyWith({
+    int? id,
+    String? name,
+    double? price,
+    int? quantity,
+    String? image,
+    String? description,
+    int? reviewCount,
+    double? rating,
+    int? categoryID,
+  }) {
+    return Product(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      quantity: quantity ?? this.quantity,
+      image: image ?? this.image,
+      description: description ?? this.description,
+      reviewCount: reviewCount ?? this.reviewCount,
+      rating: rating ?? this.rating,
+      categoryID: categoryID ?? this.categoryID,
+    );
+  }
   // Phương thức parse từ JSON
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
