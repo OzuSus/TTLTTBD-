@@ -30,7 +30,7 @@ class CartView extends GetView<CartController> {
               ),
               20.verticalSpace,
               controller.products.isEmpty
-                ? const NoData(text: 'No Products in Your Cart Yet!')
+                ? const NoData(text: 'Ko có sản phẩm nào trong giỏ hàng của bạn!')
                 : ListView.builder(
                     itemCount: controller.products.length,
                     itemBuilder: (context, index) => CartItem(
@@ -365,7 +365,7 @@ class CartView extends GetView<CartController> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Total:', style: theme.textTheme.bodyLarge?.copyWith(
+                        Text('Tổng:', style: theme.textTheme.bodyLarge?.copyWith(
                           fontSize: 18.sp,
                         )),
                         10.verticalSpace,
@@ -403,7 +403,7 @@ class CartView extends GetView<CartController> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.w),
                   child: CustomButton(
-                    text: 'Purchase Now',
+                    text: 'Đặt hàng ngay',
                     onPressed: () => controller.onPurchaseNowPressed(),
                     fontSize: 16.sp,
                     radius: 12.r,

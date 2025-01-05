@@ -149,12 +149,41 @@ class CartController extends GetxController {
     update(['PaymentMethod']);
   }
 
-  void onPurchaseNowPressed() {
-    Get.find<BaseController>().changeScreen(0);
-    CustomSnackBar.showCustomSnackBar(
-      title: 'Purchased',
-      message: 'Order placed with success',
-    );
+  void onPurchaseNowPressed() async {
+    try {
+      final int userId = await UserUtils.getUserId();
+      int idPaymentMethod;
+      switch (selectedPaymentMethod) {
+        case 'COD':
+          idPaymentMethod = 1;
+          break;
+        case 'Banking':
+          idPaymentMethod = 2;
+          break;
+        case 'QRCode':
+          idPaymentMethod = 3;
+          break;
+        default:
+          throw Exception('Phương thức thanh toán không hợp lệ');
+      }
+      final response = await http.post(
+        Uri.parse('http://localhost:8080/api/orders/place?idUser=$userId&idPaymentMethop=$idPaymentMethod'),
+      );
+      if (response.statusCode == 200) {
+        products.clear();
+        calculateTotal();
+        update();
+        CustomSnackBar.showCustomSnackBar(
+          title: 'Mua hàng',
+          message: 'Đặt hàng thành công',
+        );
+        Get.find<BaseController>().changeScreen(0);
+      } else {
+        throw Exception('Không thể đặt đơn hàng.');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+    }
   }
 }
 
