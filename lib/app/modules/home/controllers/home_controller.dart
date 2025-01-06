@@ -16,11 +16,11 @@ class HomeController extends GetxController {
     super.onInit();
     fetchProducts();
   }
-  @override
-  void onReady() {
-    super.onReady();
-    ever(products, (_) => fetchProducts());
-  }
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  //   ever(products, (_) => fetchProducts());
+  // }
 
   void fetchProducts() async {
     try {
