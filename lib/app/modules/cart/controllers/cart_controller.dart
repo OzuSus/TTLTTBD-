@@ -63,7 +63,6 @@ class CartController extends GetxController {
     }
   }
 
-
   void calculateTotal() {
     total = products.fold(
       0.0,
