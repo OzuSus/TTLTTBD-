@@ -37,7 +37,7 @@ class ProductManageView extends GetView<ProductManageController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     RoundedButton(
-                      onPressed: () => Get.back(),
+                      onPressed: () => Get.offNamed(Routes.MANAGE),
                       child: SvgPicture.asset(Constants.backArrowIcon),
                     ),
                     IconButton(
