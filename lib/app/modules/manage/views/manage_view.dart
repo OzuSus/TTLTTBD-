@@ -1,7 +1,9 @@
+// manage_view.dart
 import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/manage_controller.dart';
+import 'widgets/manage_card.dart';
 
 class ManageView extends GetView<ManageController> {
   const ManageView({Key? key}) : super(key: key);
@@ -28,76 +30,35 @@ class ManageView extends GetView<ManageController> {
         mainAxisSpacing: 16,
         padding: const EdgeInsets.all(16.0),
         children: [
-          _buildCard(
+          ManageCard(
             title: 'UserManage',
             icon: Icons.person,
             color: Colors.green, // Viền màu xanh
+            onTap: () => controller.navigateToUserManage(),
           ),
-          _buildCard(
+          ManageCard(
             title: 'ProductManage',
             icon: Icons.shopping_cart,
             color: Colors.green, // Viền màu xanh
+            onTap: () => Get.toNamed('/product-manage'),
           ),
-          _buildCard(
+          ManageCard(
             title: 'CategoryManage',
             icon: Icons.folder,
             color: Colors.green, // Viền màu xanh
+            onTap: () => Get.offNamed(Routes.CATEGORY_MANAGE),
           ),
-          _buildCard(
+          ManageCard(
             title: 'Dashboard',
             icon: Icons.bar_chart,
             color: Colors.green, // Viền màu xanh
           ),
-          _buildCard(
+          ManageCard(
             title: 'OrderManage',
             icon: Icons.receipt_long,
             color: Colors.green, // Viền màu xanh
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildCard({
-    required String title,
-    required IconData icon,
-    required Color color,
-  }) {
-    return GestureDetector(
-      onTap: () {
-        if(title =='ProductManage'){
-          Get.toNamed('/product-manage');
-        }
-        Get.snackbar('Tapped', 'You tapped on $title');
-        if(title =='CategoryManage'){
-          Get.offNamed(Routes.CATEGORY_MANAGE);
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white, // Nền trắng
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color, width: 2), // Viền màu xanh
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 48,
-              color: color, // Màu biểu tượng
-            ),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black, // Chữ đen
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
