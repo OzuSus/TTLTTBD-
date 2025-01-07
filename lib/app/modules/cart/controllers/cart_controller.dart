@@ -36,7 +36,7 @@ class CartController extends GetxController {
         final data = jsonDecode(response.body) as List;
         products = data.map((e) {
           final product = Product.fromJson(e);
-          return product.copyWith(quantity: 1);
+          return product;
         }).toList();
         update();
         calculateTotal();
@@ -121,7 +121,6 @@ class CartController extends GetxController {
       }
     }
   }
-
 
 
 
