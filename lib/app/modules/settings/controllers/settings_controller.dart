@@ -47,38 +47,21 @@ class SettingsController extends GetxController {
     // Pass the mock purchase history data or fetch it from an API
     List<Purchase> mockPurchaseHistory = [
       Purchase(
-        id: "PUR001",
-        date: "2024-12-25",
-        totalAmount: "\$200.00",
+        id: '001',
+        date: '2025-01-05',
+        totalAmount: '150.00',
+        status: 'Delivered',
         items: [
-          {"name": "Product A", "quantity": 2, "price": 50},
-          {"name": "Product B", "quantity": 1, "price": 100},
+          {"name": "Áo thun", "quantity": 1, "price": "150.00"}
         ],
       ),
       Purchase(
-        id: "PUR002",
-        date: "2024-12-20",
-        totalAmount: "\$120.00",
+        id: '002',
+        date: '2025-01-06',
+        totalAmount: '50.00',
+        status: 'Pending',
         items: [
-          {"name": "Product C", "quantity": 3, "price": 40},
-        ],
-      ),
-      Purchase(
-        id: "PUR003",
-        date: "2024-12-25",
-        totalAmount: "\$200.00",
-        items: [
-          {"name": "Product A", "quantity": 2, "price": 50},
-          {"name": "Product B", "quantity": 1, "price": 100},
-        ],
-      ),
-      Purchase(
-        id: "PUR004",
-        date: "2024-12-25",
-        totalAmount: "\$200.00",
-        items: [
-          {"name": "Product A", "quantity": 2, "price": 50},
-          {"name": "Product B", "quantity": 1, "price": 100},
+          {"name": "Quần jean", "quantity": 2, "price": "25.00"}
         ],
       ),
     ];

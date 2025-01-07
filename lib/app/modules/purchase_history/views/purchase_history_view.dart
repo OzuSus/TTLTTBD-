@@ -4,12 +4,14 @@ class Purchase {
   final String id;
   final String date;
   final String totalAmount;
+  final String status; // Add a status field
   final List<Map<String, dynamic>> items;
 
   Purchase({
     required this.id,
     required this.date,
     required this.totalAmount,
+    required this.status, // Initialize the status
     required this.items,
   });
 }
@@ -44,6 +46,17 @@ class PurchaseHistoryView extends StatelessWidget {
                   const SizedBox(height: 5.0),
                   Text('Date: ${purchase.date}'),
                   Text('Total Amount: ${purchase.totalAmount}'),
+                  Text(
+                    'Status: ${purchase.status}', // Display the status
+                    style: TextStyle(
+                      color: purchase.status == 'Delivered'
+                          ? Colors.green
+                          : purchase.status == 'Pending'
+                          ? Colors.orange
+                          : Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const Divider(),
                   const Text(
                     'Items:',
