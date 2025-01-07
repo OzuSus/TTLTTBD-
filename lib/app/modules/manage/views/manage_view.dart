@@ -65,6 +65,9 @@ class ManageView extends GetView<ManageController> {
   }) {
     return GestureDetector(
       onTap: () {
+        if(title =='UserManage'){
+          Get.toNamed('/user-manage');
+        }
         if(title =='ProductManage'){
           Get.toNamed('/product-manage');
         }
