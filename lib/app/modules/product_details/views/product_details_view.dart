@@ -24,7 +24,6 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           }
-
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,13 +47,12 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                         ),
                         child: Image.asset(
                           'assets/images/${controller.product.image}',
-                          fit: BoxFit.cover, // Đảm bảo ảnh lấp đầy container
+                          fit: BoxFit.cover,
                           width: double.infinity,
                           height: 450.h,
                         ),
                       ),
                     ),
-                    // Nút quay lại và yêu thích
                     Positioned(
                       top: 30.h,
                       left: 20.w,
@@ -66,18 +64,11 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                             onPressed: () => Get.back(),
                             child: SvgPicture.asset(Constants.backArrowIcon),
                           ),
-                          // RoundedButton(
-                          //   onPressed: () {
-                          //     // Logic yêu thích nếu cần
-                          //   },
-                          //   child: SvgPicture.asset(Constants.favOutlinedIcon),
-                          // ),
                         ],
                       ),
                     ),
                   ],
                 ),
-
                 20.verticalSpace,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -123,8 +114,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: CustomButton(
                     text: 'Add to Cart',
-                    onPressed: () {
-                      // Logic thêm vào giỏ hàng
+                    onPressed: controller.product.quantity <= 0 ? null : () {
+                      controller.addToCart();
                     },
                     disabled: controller.product.quantity <= 0,
                   ),
