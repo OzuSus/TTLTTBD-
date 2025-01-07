@@ -51,7 +51,7 @@ class UserManageController extends GetxController {
               : 'assets/images/default_avatar.png'; // Default avatar nếu không có avatar
           return User.fromJson({
             ...json,
-            'avata': avatarUrl,  // Thêm URL hoàn chỉnh vào dữ liệu user
+            'avatar': avatarUrl,  // Thêm URL hoàn chỉnh vào dữ liệu user
           });
         }).toList();
       } else {
@@ -61,7 +61,6 @@ class UserManageController extends GetxController {
       Get.snackbar('Error', 'Failed to load users: $e');
     }
   }
-
 
   // Phương thức thay đổi avatar của người dùng
   // Cập nhật avatar của người dùng
