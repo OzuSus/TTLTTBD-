@@ -50,36 +50,36 @@ class SettingsController extends GetxController {
         id: "PUR001",
         date: "2024-12-25",
         totalAmount: "\$200.00",
-        items: [
-          {"name": "Product A", "quantity": 2, "price": 50},
-          {"name": "Product B", "quantity": 1, "price": 100},
-        ],
+        // items: [
+        //   {"name": "Product A", "quantity": 2, "price": 50},
+        //   {"name": "Product B", "quantity": 1, "price": 100},
+        // ],
       ),
       Purchase(
         id: "PUR002",
         date: "2024-12-20",
         totalAmount: "\$120.00",
-        items: [
-          {"name": "Product C", "quantity": 3, "price": 40},
-        ],
+        // items: [
+        //   {"name": "Product C", "quantity": 3, "price": 40},
+        // ],
       ),
       Purchase(
         id: "PUR003",
         date: "2024-12-25",
         totalAmount: "\$200.00",
-        items: [
-          {"name": "Product A", "quantity": 2, "price": 50},
-          {"name": "Product B", "quantity": 1, "price": 100},
-        ],
+        // items: [
+        //   {"name": "Product A", "quantity": 2, "price": 50},
+        //   {"name": "Product B", "quantity": 1, "price": 100},
+        // ],
       ),
       Purchase(
         id: "PUR004",
         date: "2024-12-25",
         totalAmount: "\$200.00",
-        items: [
-          {"name": "Product A", "quantity": 2, "price": 50},
-          {"name": "Product B", "quantity": 1, "price": 100},
-        ],
+        // items: [
+        //   {"name": "Product A", "quantity": 2, "price": 50},
+        //   {"name": "Product B", "quantity": 1, "price": 100},
+        // ],
       ),
     ];
 
