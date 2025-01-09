@@ -262,6 +262,7 @@ class CartView extends GetView<CartController> {
                                       'Cash on Delivery (COD)',
                                       style: theme.textTheme.bodyMedium?.copyWith(
                                         fontSize: 18.sp,
+                                        fontWeight: FontWeight.bold
                                       ),
                                     ),
                                   ),
@@ -300,46 +301,148 @@ class CartView extends GetView<CartController> {
                                           'Bank Transfer',
                                           style: theme.textTheme.bodyMedium
                                               ?.copyWith(
-                                            fontSize: 18.sp,
+                                            fontSize: 18.sp, fontWeight: FontWeight.bold
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
 
-                                  if (controller.selectedPaymentMethod ==
-                                      'Banking') ...[
+                                  if (controller.selectedPaymentMethod == 'Banking') ...[
                                     10.verticalSpace,
-                                    Text(
-                                      'Tên tài khoản: PHUNG VAN DUOC',
-                                      style: theme.textTheme.bodyMedium,
-                                    ),
-                                    5.verticalSpace,
-                                    Text(
-                                      'Ngân hàng: BIDV',
-                                      style: theme.textTheme.bodyMedium,
-                                    ),
-                                    5.verticalSpace,
-                                    Text(
-                                      'Số tài khoản: 31410009041395',
-                                      style: theme.textTheme.bodyMedium,
-                                    ),
-                                    5.verticalSpace,
-                                    Text(
-                                      'Nội dung chuyển khoản:',
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        fontWeight: FontWeight.bold,
+                                    Card(
+                                      elevation: 6,
+                                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Thông tin thanh toán',
+                                              style: theme.textTheme.titleLarge?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                                color: theme.colorScheme.primary,
+                                              ),
+                                            ),
+                                            15.verticalSpace,
+                                            Divider(color: theme.dividerColor, thickness: 1),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  flex: 5,
+                                                  child: Text(
+                                                    'Tài khoản:',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.grey.shade600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Text(
+                                                    'PHUNG VAN DUOC',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            10.verticalSpace,
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  flex: 5,
+                                                  child: Text(
+                                                    'Ngân hàng:',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.grey.shade600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Text(
+                                                    'Vietcombank',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            10.verticalSpace,
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  flex: 5,
+                                                  child: Text(
+                                                    'Số tài khoản:',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.grey.shade600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Text(
+                                                    '1016444855',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            10.verticalSpace,
+                                            Text(
+                                              'Nội dung chuyển khoản:',
+                                              style: theme.textTheme.bodyLarge?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                                color: Colors.grey.shade700,
+                                              ),
+                                            ),
+                                            10.verticalSpace,
+                                            Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade100,
+                                                borderRadius: BorderRadius.circular(8),
+                                                border: Border.all(color: theme.colorScheme.primary, width: 1.2),
+                                              ),
+                                              child: GetBuilder<CartController>(
+                                                id: 'EncodedBankingInfo',
+                                                builder: (controller) => Text(
+                                                  controller.encodedBankingInfo,
+                                                  style: theme.textTheme.bodyLarge?.copyWith(
+                                                    fontSize: 16,
+                                                    color: Colors.black87,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                    5.verticalSpace,
-                                    GetBuilder<CartController>(
-                                      id: 'EncodedBankingInfo',
-                                      builder: (controller) => Text(
-                                        controller.encodedBankingInfo,
-                                        style: theme.textTheme.bodyMedium,
-                                      ),
-                                    ),
-
                                   ],
                                 ],
                               ),
@@ -375,6 +478,7 @@ class CartView extends GetView<CartController> {
                                           style: theme.textTheme.bodyMedium
                                               ?.copyWith(
                                             fontSize: 18.sp,
+                                              fontWeight: FontWeight.bold
                                           ),
                                         ),
                                       ),
@@ -383,16 +487,23 @@ class CartView extends GetView<CartController> {
                                   if (controller.selectedPaymentMethod ==
                                       'QRCode') ...[
                                     10.verticalSpace,
-                                    GetBuilder<CartController>(
-                                      id: 'QRCodeData',
-                                      builder: (controller) => Center(
-                                        child: QrImageView(
-                                          data: controller.qrCodeData,
-                                          size: 200.w,
+                                    Card(
+                                      elevation: 6,
+                                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child:
+                                      GetBuilder<CartController>(
+                                        id: 'QRCodeData',
+                                        builder: (controller) => Center(
+                                          child: QrImageView(
+                                            data: controller.qrCodeData,
+                                            size: 200.w,
+                                          ),
                                         ),
                                       ),
-                                    ),
-
+                                    )
                                   ],
                                 ],
                               ),

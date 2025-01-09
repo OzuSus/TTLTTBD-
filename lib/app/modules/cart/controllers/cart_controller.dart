@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
 import 'package:ecommerce_app/app/models/product.dart';
 import 'package:ecommerce_app/app/models/user.dart';
 import 'package:ecommerce_app/utils/UserUtils.dart';
@@ -204,8 +205,11 @@ class CartController extends GetxController {
     final List<String> encodedProducts = products.map((p) {
       return '${p.id}:${p.name}:${p.quantity}:${p.price}';
     }).toList();
+    final rawData = encodedProducts.join('|');
+    final bytes = utf8.encode(rawData);
+    final digest = sha256.convert(bytes);
+    encodedBankingInfo = base64Url.encode(digest.bytes).substring(0, 40);
 
-    encodedBankingInfo = encodedProducts.join('|');
     update(['EncodedBankingInfo']);
   }
 
