@@ -122,7 +122,6 @@ class CartController extends GetxController {
     }
   }
 
-
   Future<void> onDeletePressed(int productId) async {
     final userId = await UserUtils.getUserId();
     final url = Uri.parse('http://localhost:8080/api/cart-details/remove?idUser=$userId&idProduct=$productId');
