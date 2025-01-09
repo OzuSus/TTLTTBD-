@@ -30,6 +30,7 @@ class HomeController extends GetxController {
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as List;
         products.value = data.map((json) => Product.fromJson(json)).toList();
+        products.refresh();
       } else {
         Get.snackbar('Error', 'Failed to load products');
       }
