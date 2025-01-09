@@ -18,6 +18,8 @@ import 'package:ecommerce_app/app/modules/product_types/views/productTypes_view.
 import 'package:ecommerce_app/app/modules/register/bindings/register_bindings.dart';
 import 'package:ecommerce_app/app/modules/register/views/register_view.dart';
 import 'package:get/get.dart';
+import 'package:ecommerce_app/app/modules/order_manage/views/order_manage_view.dart';
+import 'package:ecommerce_app/app/modules/order_manage/bindings/order_manage_binding.dart';
 
 import '../modules/base/bindings/base_binding.dart';
 import '../modules/base/views/base_view.dart';
@@ -35,6 +37,8 @@ import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/manage/bindings/manage_binding.dart';
 import '../modules/manage/views/manage_view.dart';
+import '../modules/user_manage/bindings/user_manage_binding.dart';
+import '../modules/user_manage/views/user_manage_view.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -130,5 +134,15 @@ class AppPages {
       page: () => const CreateProductView(),
       binding: CreateProductBinding(),
     ),
+    GetPage(
+      name: _Paths.USER_MANAGE,
+      page: () => const UserManageView(),
+      binding: UserManageBinding(),
+    ),
+      GetPage(
+      name: _Paths.ORDER_MANAGE,
+      page: () => const OrderManageView(),
+      binding: OrderManageBinding(),
+     ),
   ];
 }

@@ -65,11 +65,17 @@ class ManageView extends GetView<ManageController> {
   }) {
     return GestureDetector(
       onTap: () {
+        if(title =='UserManage'){
+          Get.toNamed('/user-manage');
+        }
         if(title =='ProductManage'){
           Get.toNamed('/product-manage');
         }
         if(title =='CategoryManage'){
           Get.offNamed(Routes.CATEGORY_MANAGE);
+        }
+        if(title =='OrderManage'){
+          Get.toNamed('/order-manage');
         }
       },
       child: Container(

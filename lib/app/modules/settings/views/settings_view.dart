@@ -8,6 +8,7 @@ import '../../../components/screen_title.dart';
 import '../controllers/settings_controller.dart';
 import 'widgets/settings_item.dart';
 
+
 class SettingsView extends GetView<SettingsController> {
   const SettingsView({Key? key}) : super(key: key);
 
@@ -54,6 +55,13 @@ class SettingsView extends GetView<SettingsController> {
                         Get.offNamed(Routes.ACCOUNT);
                       },
                     ),
+                    25.verticalSpace,
+                    SettingsItem(
+                      title: 'Purchase History',
+                      subtitle:  Text("",style: theme.textTheme.displaySmall,),
+                      icon: Constants.clipboardIcon,
+                      onTap: () => controller.navigateToPurchaseHistory(),
+                    ),
                     if (user != null && user['role'] == true) ...[
                       25.verticalSpace,
                       SettingsItem(
@@ -61,6 +69,7 @@ class SettingsView extends GetView<SettingsController> {
                         icon: Constants.clipboardIcon,
                         onTap: () => controller.navigateToManage(),
                       ),
+                      25.verticalSpace,
                     ],
                   ],
                 );
