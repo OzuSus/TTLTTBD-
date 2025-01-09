@@ -17,6 +17,9 @@ class CartController extends GetxController {
   var total = 0.0;
   String selectedPaymentMethod = 'COD';
   User? user;
+  String encodedBankingInfo = '';
+  String qrCodeData = '';
+
 
   @override
   void onInit() {
@@ -40,6 +43,8 @@ class CartController extends GetxController {
         }).toList();
         update();
         calculateTotal();
+        updateEncodedBankingInfo();
+        updateQRCodeData();
       } else {
         throw Exception('Ko thể load giỏ hàng');
       }
@@ -83,7 +88,11 @@ class CartController extends GetxController {
         if (index != -1) {
           products[index] = products[index].copyWith(quantity: products[index].quantity + 1);
           calculateTotal();
+          updateEncodedBankingInfo(); // Cập nhật thông tin encoded banking
+          updateQRCodeData();
           update(['ProductQuantity']);
+          update(['EncodedBankingInfo']);
+          update(['QRCodeData']);
         }
       } else {
         throw Exception('Không thể tăng số lượng sản phẩm.');
@@ -111,6 +120,10 @@ class CartController extends GetxController {
           if (index != -1) {
             products[index] = products[index].copyWith(quantity: products[index].quantity - 1);
             calculateTotal();
+            updateEncodedBankingInfo(); // Cập nhật thông tin encoded banking
+            updateQRCodeData();
+            update(['EncodedBankingInfo']);
+            update(['QRCodeData']);
             update(['ProductQuantity']);
           }
         } else {
@@ -131,6 +144,11 @@ class CartController extends GetxController {
         products.removeWhere((p) => p.id == productId);
         calculateTotal();
         update();
+        updateEncodedBankingInfo();
+        updateQRCodeData();
+        update(['ProductQuantity']);
+        update(['EncodedBankingInfo']);
+        update(['QRCodeData']);
         Get.snackbar('Thành công', 'Thành công xóa sản phẩm khỏi giỏ hàng');
       } else {
         Get.snackbar('Lỗi', 'Ko th xóa sản phẩm khỏi giỏ hàng');
@@ -180,6 +198,24 @@ class CartController extends GetxController {
     } catch (e) {
       Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
     }
+  }
+
+  void updateEncodedBankingInfo() {
+    final List<String> encodedProducts = products.map((p) {
+      return '${p.id}:${p.name}:${p.quantity}:${p.price}';
+    }).toList();
+
+    encodedBankingInfo = encodedProducts.join('|');
+    update(['EncodedBankingInfo']);
+  }
+
+  void updateQRCodeData() {
+    final List<String> qrProducts = products.map((p) {
+      return '${p.id}:${p.name}:${p.quantity}:${p.price}';
+    }).toList();
+
+    qrCodeData = qrProducts.join('|');
+    update(['QRCodeData']);
   }
 }
 
