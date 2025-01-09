@@ -25,6 +25,7 @@ class Constants {
   static const logoutIcon = 'assets/vectors/logout.svg';
   static const manageIcon = 'assets/vectors/manage.svg';
   static const clipboardIcon = 'assets/vectors/clipboard.svg';
+  static const purchaseHistoryIcon = 'assets/vectors/history.svg';
 
   static const product1 = 'assets/images/product1.png';
   static const product2 = 'assets/images/product2.png';

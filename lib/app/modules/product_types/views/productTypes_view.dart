@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/app/components/no_data.dart';
 import 'package:ecommerce_app/app/components/product_item.dart';
 import 'package:ecommerce_app/app/components/screen_title.dart';
 import 'package:ecommerce_app/app/routes/app_pages.dart';
@@ -27,7 +28,7 @@ class ProducttypesView extends GetView<ProductTypesController> {
             return const Center(child: CircularProgressIndicator());
           }
           if (controller.products.isEmpty) {
-            return const Center(child: Text('No products available'));
+            return const NoData(text: "Doanh mục này chưa có sản phâm nào");
           }
           return ListView(
             children: [
