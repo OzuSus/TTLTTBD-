@@ -90,9 +90,10 @@ class SettingsView extends GetView<SettingsController> {
             //   isDark: true,
             // ),
             25.verticalSpace,
-            const SettingsItem(
-              title: 'Language',
+            SettingsItem(
+              title: 'About',
               icon: Constants.languageIcon,
+              onTap: () => Get.toNamed(Routes.ABOUT),
             ),
             25.verticalSpace,
             const SettingsItem(
@@ -113,3 +114,4 @@ class SettingsView extends GetView<SettingsController> {
     );
   }
 }
+

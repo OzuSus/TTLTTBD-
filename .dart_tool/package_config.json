@@ -213,7 +213,7 @@
     },
     {
       "name": "flutter_svg",
-      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_svg-2.0.16",
+      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_svg-2.0.17",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -261,7 +261,7 @@
     },
     {
       "name": "http_parser",
-      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.1.1",
+      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.1.2",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -417,19 +417,19 @@
     },
     {
       "name": "rename_app",
-      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/rename_app-1.6.1",
+      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/rename_app-1.6.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences",
-      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences-2.3.4",
+      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences-2.3.5",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "shared_preferences_android",
-      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.4.0",
+      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.4.1",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -531,7 +531,7 @@
     },
     {
       "name": "vector_graphics_codec",
-      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics_codec-1.1.12",
+      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics_codec-1.1.13",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -573,7 +573,7 @@
     },
     {
       "name": "win32",
-      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.9.0",
+      "rootUri": "file:///C:/Users/NAM/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.10.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -602,7 +602,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-12-29T21:25:29.008403Z",
+  "generated": "2025-01-11T07:29:29.073408Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///C:/flutter/flutter",

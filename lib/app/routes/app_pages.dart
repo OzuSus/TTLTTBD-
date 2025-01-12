@@ -23,6 +23,7 @@ import 'package:ecommerce_app/app/modules/order_manage/bindings/order_manage_bin
 
 
 
+import '../modules/about/views/about_view.dart';
 import '../modules/base/bindings/base_binding.dart';
 import '../modules/base/views/base_view.dart';
 import '../modules/cart/bindings/cart_binding.dart';
@@ -138,6 +139,10 @@ class AppPages {
       name: _Paths.ORDER_MANAGE,
       page: () => const OrderManageView(),
       binding: OrderManageBinding(),
+    ),
+    GetPage(
+      name: Routes.ABOUT,
+      page: () => const AboutView(),
     ),
   ];
 }

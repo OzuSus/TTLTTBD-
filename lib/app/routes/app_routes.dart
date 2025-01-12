@@ -24,6 +24,7 @@ abstract class Routes {
 
   static const ORDER_MANAGE =_Paths.ORDER_MANAGE;
   static const PURCHASE_HISTORY =_Paths.PURCHASE_HISTORY;
+  static const ABOUT = '/about';
 
 
 

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../components/screen_title.dart';
+import '../../../components/no_data.dart'; // Import the NoData component
 import '../controllers/categories_controller.dart';
 import 'widgets/category_item.dart';
 
@@ -22,7 +23,10 @@ class CategoryView extends GetView<CategoryController> {
           }
 
           if (controller.categories.isEmpty) {
-            return const Center(child: Text('No categories available.'));
+            // Use the NoData component for better UI
+            return const NoData(
+              text: 'No categories available.',
+            );
           }
 
           return ListView(
