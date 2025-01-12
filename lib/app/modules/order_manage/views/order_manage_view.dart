@@ -51,9 +51,13 @@ class _OrderManageViewState extends State<OrderManageView> {
         title: const Text('Manage Orders'),
         centerTitle: true,
       ),
+
       body: orders.isEmpty
           ? const Center(child: Text('No orders available'))
           : ListView.builder(
+
+      body: ListView.builder(
+
         itemCount: orders.length,
         itemBuilder: (context, index) {
           final order = orders[index];
@@ -65,18 +69,36 @@ class _OrderManageViewState extends State<OrderManageView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Date: ${order["date"]}'),
+
                   Text('Status: ${order["status"]}',
                       style: TextStyle(
                         color: order["status"] == "Pending"
                             ? Colors.orange
                             : Colors.green,
                       )),
+
+                  Text('Status: ${order["status"]}'),
+
                   Text('Total: ${order["total"]}'),
                 ],
               ),
               trailing: IconButton(
                 icon: const Icon(Icons.more_vert),
+
                 onPressed: () => _showOrderActions(context, order),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+
+
+                onPressed: () {
+                  _showOrderActions(context, order);
+                },
               ),
             ),
           );
@@ -90,6 +112,7 @@ class _OrderManageViewState extends State<OrderManageView> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
+
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -97,6 +120,13 @@ class _OrderManageViewState extends State<OrderManageView> {
               context,
               icon: Icons.remove_red_eye,
               label: 'View Details',
+
+        return Wrap(
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.remove_red_eye),
+              title: const Text('View Details'),
+
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -107,10 +137,16 @@ class _OrderManageViewState extends State<OrderManageView> {
                 );
               },
             ),
+
             _buildOrderAction(
               context,
               icon: Icons.edit,
               label: 'Edit Order',
+
+            ListTile(
+              leading: const Icon(Icons.edit),
+              title: const Text('Edit Order'),
+
               onTap: () async {
                 Navigator.pop(context);
                 final updatedOrder = await Navigator.push(
@@ -126,10 +162,16 @@ class _OrderManageViewState extends State<OrderManageView> {
                 }
               },
             ),
+
             _buildOrderAction(
               context,
               icon: Icons.delete,
               label: 'Cancel Order',
+
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: const Text('Cancel Order'),
+
               onTap: () async {
                 Navigator.pop(context);
                 final cancellationData = await Navigator.push(
@@ -155,6 +197,7 @@ class _OrderManageViewState extends State<OrderManageView> {
     );
   }
 
+
   Widget _buildOrderAction(BuildContext context,
       {required IconData icon, required String label, required Function() onTap}) {
     return ListTile(
@@ -164,3 +207,6 @@ class _OrderManageViewState extends State<OrderManageView> {
     );
   }
 }
+
+}
+

@@ -10,6 +10,7 @@ class EditOrderView extends StatefulWidget {
 }
 
 class _EditOrderViewState extends State<EditOrderView> {
+
   late TextEditingController _totalController;
   late TextEditingController _productController;
   late String _selectedStatus;
@@ -22,22 +23,36 @@ class _EditOrderViewState extends State<EditOrderView> {
     'Cancelled',
   ];
 
+  late TextEditingController _statusController;
+  late TextEditingController _totalController;
+
+
   @override
   void initState() {
     super.initState();
+
     _selectedStatus = widget.order['status']; // Initialize with current status
     _totalController = TextEditingController(text: widget.order['total']?.toString() ?? '');
     _productController = TextEditingController(text: widget.order['product']?.toString() ?? '');
+  _statusController = TextEditingController(text: widget.order['status']);
+    _totalController = TextEditingController(text: widget.order['total'].toString());
+
   }
 
   @override
   void dispose() {
+
     _totalController.dispose();
     _productController.dispose();
+
+    _statusController.dispose();
+    _totalController.dispose();
+
     super.dispose();
   }
 
   void _saveOrder() {
+
     if (_totalController.text.isEmpty || double.tryParse(_totalController.text) == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter a valid total amount.')),
@@ -57,6 +72,13 @@ class _EditOrderViewState extends State<EditOrderView> {
       'status': _selectedStatus,
       'total': _totalController.text,
       'product': _productController.text,
+
+    // Mock API call or database update
+    final updatedOrder = {
+      ...widget.order,
+      'status': _statusController.text,
+      'total': _totalController.text,
+
     };
 
     Navigator.pop(context, updatedOrder);
@@ -68,17 +90,27 @@ class _EditOrderViewState extends State<EditOrderView> {
       appBar: AppBar(
         title: Text('Edit Order - ${widget.order["id"]}'),
       ),
+
       body: SingleChildScrollView(
+
+      body: Padding(
+
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             DropdownButtonFormField<String>(
               value: _selectedStatus,
+
+            TextField(
+              controller: _statusController,
+
               decoration: const InputDecoration(
                 labelText: 'Order Status',
                 border: OutlineInputBorder(),
               ),
+
               items: _statusOptions.map((status) {
                 return DropdownMenuItem(
                   value: status,
@@ -90,6 +122,8 @@ class _EditOrderViewState extends State<EditOrderView> {
                   _selectedStatus = newValue!;
                 });
               },
+
+
             ),
             const SizedBox(height: 20),
             TextField(
@@ -101,6 +135,7 @@ class _EditOrderViewState extends State<EditOrderView> {
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 20),
+
             TextField(
               controller: _productController,
               decoration: const InputDecoration(
@@ -109,6 +144,8 @@ class _EditOrderViewState extends State<EditOrderView> {
               ),
             ),
             const SizedBox(height: 30),
+
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -128,4 +165,8 @@ class _EditOrderViewState extends State<EditOrderView> {
       ),
     );
   }
+
 }
+
+}
+

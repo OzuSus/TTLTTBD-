@@ -73,4 +73,7 @@ class _CancelOrderViewState extends State<CancelOrderView> {
       ),
     );
   }
+
+}
+
 }

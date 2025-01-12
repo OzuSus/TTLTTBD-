@@ -8,4 +8,7 @@ class OrderManageBinding extends Bindings {
           () => OrderManageController(),
     );
   }
+
+}
+=======
 }

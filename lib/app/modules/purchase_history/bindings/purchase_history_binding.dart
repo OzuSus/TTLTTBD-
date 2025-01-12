@@ -8,4 +8,8 @@ class PurchaseHistoryBinding extends Bindings {
           () => PurchaseHistoryController(),
     );
   }
+
 }
+
+}
+

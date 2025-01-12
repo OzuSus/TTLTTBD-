@@ -22,10 +22,16 @@ abstract class Routes {
   static const PRODUCT_EDIT =_Paths.PRODUCT_EDIT;
   static const PRODUCT_CREATE =_Paths.PRODUCT_CREATE;
 
+
   static const ORDER_MANAGE =_Paths.ORDER_MANAGE;
   static const PURCHASE_HISTORY =_Paths.PURCHASE_HISTORY;
   static const ABOUT = '/about';
 
+
+
+  static const USER_MANAGE =_Paths.USER_MANAGE;
+  static const ORDER_MANAGE =_Paths.ORDER_MANAGE;
+  static const PURCHASE_HISTORY =_Paths.PURCHASE_HISTORY;
 
 
 }
@@ -49,10 +55,18 @@ abstract class _Paths {
   static const PRODUCT_MANAGE = '/product-manage';
   static const PRODUCT_EDIT = '/product-edit';
   static const PRODUCT_CREATE = '/product-create';
+
   static const ORDER_MANAGE = '/order-manage';
   static const PURCHASE_HISTORY = '/purchase-history';
 
 
+
+
+
+
+  static const USER_MANAGE = '/user-manage';
+  static const ORDER_MANAGE = '/order-manage';
+  static const PURCHASE_HISTORY = '/purchase-history';
 
 
 }
