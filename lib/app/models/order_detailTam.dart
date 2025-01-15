@@ -6,6 +6,7 @@ class OrderDetail {
   final Product product;
   final int quantity;
   final double totalprice;
+  
 
   OrderDetail({
     required this.id,
