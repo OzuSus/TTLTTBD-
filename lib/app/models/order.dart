@@ -8,7 +8,6 @@ class Order {
   final String paymentMethodName;
   final double totalPrice;
 
-
   Order({
     required this.orderId,
     required this.userId,
