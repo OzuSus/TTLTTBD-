@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/user_manage_controller.dart'; // Import controller của UserManage
@@ -49,7 +50,7 @@ class UserManageView extends GetView<UserManageController> {
 
   // Hàm xử lý quay lại
   void _onBackPressed() {
-    Get.back();
+    Get.toNamed(Routes.MANAGE);
   }
 
   // Hàm hiển thị form thêm người dùng

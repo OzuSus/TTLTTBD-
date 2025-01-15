@@ -23,51 +23,64 @@ class ProducttypesView extends GetView<ProductTypesController> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Obx(() {
-
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (controller.products.isEmpty) {
-            return const NoData(text: "Doanh mục này chưa có sản phâm nào");
-          }
-          return ListView(
+
+          return Column(
             children: [
-              Positioned(
-                top: 30.h,
-                left: 20.w,
-                right: 20.w,
+              // Header
+              Padding(
+                padding: EdgeInsets.only(top: 30.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    RoundedButton(
+                    IconButton(
                       onPressed: () => Get.back(),
-                      child: SvgPicture.asset(Constants.backArrowIcon),
+                      icon: Icon(
+                        Icons.arrow_back_outlined,
+                        size: 30.w,
+                        color: Colors.black87,
+                      ),
                     ),
-
+                    Expanded(
+                      child: Text(
+                        'Product Types',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 27.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 48.w),
                   ],
                 ),
               ),
-              10.verticalSpace,
-              const ScreenTitle(
-                title: 'Product Types',
-                dividerEndIndent: 150,
-              ),
               20.verticalSpace,
-           
-              GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15.w,
-                  mainAxisSpacing: 15.h,
-                  mainAxisExtent: 260.h,
+
+              // Content
+              controller.products.isEmpty
+                  ? const NoData(
+                text: 'Ko có sản phẩm nào thuộc danh mục này!',
+              )
+                  : Expanded(
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 15.w,
+                    mainAxisSpacing: 15.h,
+                    mainAxisExtent: 260.h,
+                  ),
+                  shrinkWrap: true,
+                  itemCount: controller.products.length,
+                  itemBuilder: (context, index) {
+                    final product = controller.products[index];
+                    return ProductItem(product: product);
+                  },
                 ),
-                shrinkWrap: true,
-                primary: false,
-                itemCount: controller.products.length,
-                itemBuilder: (context, index) {
-                  final product = controller.products[index];
-                  return ProductItem(product: product);
-                },
               ),
               10.verticalSpace,
             ],
@@ -77,6 +90,7 @@ class ProducttypesView extends GetView<ProductTypesController> {
     );
   }
 }
+
 
 // class CategoryForm extends StatelessWidget {
 //   final ProductTypesController controller; // Thêm controller
