@@ -22,10 +22,13 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   Widget build(BuildContext context) {
     final ScrollController scrollController = ScrollController();
     return Scaffold(
+      backgroundColor: Colors.grey[50], // Background màu sáng để tạo cảm giác hiện đại
       appBar: AppBar(
-        title: Text('Order Details - Order ID: ${widget.orderId}'),
+        title: Text('Order ID: ${widget.orderId}', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.transparent, // Làm cho AppBar trong suốt
+        elevation: 0, // Loại bỏ bóng
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: Get.back,
         ),
       ),
@@ -48,13 +51,15 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   Widget _buildDetailList(BuildContext context, OrderDetail detail) {
     final detailId = detail.orderDetailId;
     return Card(
-      elevation: 3,
-      margin: const EdgeInsets.all(8.0),
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
+      color: Colors.white,
+      shadowColor: Colors.black.withOpacity(0.2),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -62,18 +67,56 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Order Detail ID: $detailId',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  'Detail ID: $detailId',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey,
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 8.0),
-            Text('Product Name: ${detail.productName}'),
-            Text('Unit Price: ${detail.unitPrice}'),
-            Text('Quantity: ${detail.quantity}'),
-            Text('Total Price: ${detail.totalPrice}'),
+            const SizedBox(height: 12.0),
+            _buildDetailRow('Product Name:', detail.productName),
+            _buildDetailRow('Unit Price:', detail.unitPrice as String),
+            _buildDetailRow('Quantity:', detail.quantity as String),
+            _buildDetailRow('Total Price:', detail.totalPrice as String),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[700],
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+            decoration: BoxDecoration(
+              color: Colors.blueGrey[50],
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueGrey[800],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
