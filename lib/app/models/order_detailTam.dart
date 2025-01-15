@@ -6,7 +6,7 @@ class OrderDetail {
   final Product product;
   final int quantity;
   final double totalprice;
-  
+
 
   OrderDetail({
     required this.id,
@@ -15,6 +15,7 @@ class OrderDetail {
     required this.quantity,
     required this.totalprice,
   });
+
 
   factory OrderDetail.fromJson(Map<String, dynamic> json) {
     return OrderDetail(
