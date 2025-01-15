@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/order_manage_controller.dart';
-import 'add_product_form.dart'; // Import controller
 
 class AddOrderForm extends StatefulWidget {
   const AddOrderForm({Key? key}) : super(key: key);
@@ -37,10 +36,6 @@ class _AddOrderFormState extends State<AddOrderForm> {
                   {'value': 3, 'label': 'QRCode'},
                 ],
               ),
-              const SizedBox(height: 15),
-              _buildTextField('Product ID', Icons.qr_code, controller.productIdController),
-              const SizedBox(height: 15),
-              _buildTextField('Quantity', Icons.production_quantity_limits, controller.quantityController),
               const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -56,10 +51,7 @@ class _AddOrderFormState extends State<AddOrderForm> {
                   ),
                   const SizedBox(width: 20),
                   ElevatedButton(
-                    onPressed: () async {
-                      await controller.addOrder();
-                      _showAddProductForm(context, controller.orderId.value);
-                    },
+                    onPressed: controller.addOrder,
                     child: const Text('Save'),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
@@ -117,15 +109,5 @@ class _AddOrderFormState extends State<AddOrderForm> {
         }
       },
     ));
-  }
-
-  void _showAddProductForm(BuildContext context, int orderId) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return AddProductForm(orderId: orderId); // Truyền orderId vào AddProductForm
-      },
-    );
   }
 }

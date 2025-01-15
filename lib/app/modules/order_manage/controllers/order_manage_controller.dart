@@ -76,8 +76,6 @@ class OrderManageController extends GetxController {
       final uri = Uri.parse(url).replace(queryParameters: {
         'idUser': userIdController.text,
         'idPaymentMethop': paymentMethod.value.toString(), // Chuyển thành chuỗi
-        'productId': productIdController.text,
-        'quantity': quantityController.text, // Chuyển thành chuỗi
       });
 
       final response = await http.post(
@@ -86,7 +84,6 @@ class OrderManageController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        orderId.value = int.parse(response.body);
         Get.snackbar('Success', 'Order added successfully.');
         fetchOrders();
         clearOrderForm();
@@ -106,36 +103,6 @@ class OrderManageController extends GetxController {
     quantityController.clear();
   }
 
-  void addProduct () async{
-    try {
-      final String url = 'http://localhost:8080/api/orders/${orderId.value}/add-product';
-      final uri = Uri.parse(url).replace(queryParameters: {
-        'productId': productIdController.text,
-        'quantity': quantityController.text, // Chuyển thành chuỗi
-      });
-
-      final response = await http.put(
-        uri,
-        headers: {'Content-Type': 'application/json'},
-      );
-
-      if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Product added successfully.');
-        clearProductForm();
-        fetchDetails();
-      } else {
-        Get.snackbar('Error', 'Failed to add product. Code: ${response.statusCode}');
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to add product: $e');
-    }
-  }
-
-  void clearProductForm() {
-    productIdController.clear();
-    quantityController.clear();
-  }
-
   void deleteOrder() async{
     try {
       // Gửi yêu cầu DELETE đến API
@@ -151,37 +118,6 @@ class OrderManageController extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', 'An error occurred: $e');
-    }
-  }
-
-  void deleteProduct() async{
-    int? productId;
-    for (var detail in details) {
-      if (detail.orderDetailId == detailId.value) {
-        productId = detail.productId;
-        break;
-      }
-    }
-    print(productId);
-    try {
-      final String url = 'http://localhost:8080/api/orders/${orderId.value}/remove-product';
-      final uri = Uri.parse(url).replace(queryParameters: {
-        'productId': productId.toString(),
-      });
-
-      final response = await http.delete(
-        uri,
-        headers: {'Content-Type': 'application/json'},
-      );
-
-      if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Product deleted successfully.');
-        fetchDetails();
-      } else {
-        Get.snackbar('Error', 'Failed to delete product. Code: ${response.statusCode}');
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to delete product: $e');
     }
   }
 

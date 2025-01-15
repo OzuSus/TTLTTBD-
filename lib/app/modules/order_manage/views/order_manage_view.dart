@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce_app/app/modules/order_manage/views/widgets/order_details_view.dart';
 import 'package:get/get.dart';
 import 'widgets/add_order_form.dart';
-import 'widgets/add_product_form.dart';
 import '../../../models/order.dart';
 
 class OrderManageView extends GetView<OrderManageController> {
