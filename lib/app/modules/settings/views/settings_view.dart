@@ -60,7 +60,9 @@ class SettingsView extends GetView<SettingsController> {
                       title: 'Purchase History',
                       subtitle:  Text("",style: theme.textTheme.displaySmall,),
                       icon: Constants.clipboardIcon,
-                      onTap: () => controller.navigateToPurchaseHistory(),
+                      onTap: () => {
+
+                      },
                     ),
                     if (user != null && user['role'] == true) ...[
                       25.verticalSpace,
