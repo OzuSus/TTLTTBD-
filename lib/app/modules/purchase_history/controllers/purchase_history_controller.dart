@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:ecommerce_app/app/models/order.dart';
-import 'package:ecommerce_app/app/models/order_detail.dart';
+import 'package:ecommerce_app/app/models/orderTam.dart';
+import 'package:ecommerce_app/app/models/order_detailTam.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
