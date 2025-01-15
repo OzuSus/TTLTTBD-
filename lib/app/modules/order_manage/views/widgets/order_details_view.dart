@@ -22,7 +22,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
   Widget build(BuildContext context) {
     final ScrollController scrollController = ScrollController();
     return Scaffold(
-      backgroundColor: Colors.grey[50], // Background màu sáng để tạo cảm giác hiện đại
+      backgroundColor: Colors.lightBlue, // Background màu sáng để tạo cảm giác hiện đại
       appBar: AppBar(
         title: Text('Order ID: ${widget.orderId}', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent, // Làm cho AppBar trong suốt
@@ -68,7 +68,7 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
               children: [
                 Text(
                   'Detail ID: $detailId',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.blueGrey,
@@ -78,9 +78,9 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
             ),
             const SizedBox(height: 12.0),
             _buildDetailRow('Product Name:', detail.productName),
-            _buildDetailRow('Unit Price:', detail.unitPrice as String),
-            _buildDetailRow('Quantity:', detail.quantity as String),
-            _buildDetailRow('Total Price:', detail.totalPrice as String),
+            _buildDetailRow('Unit Price:', detail.unitPrice.toString()), // Chuyển đổi sang chuỗi
+            _buildDetailRow('Quantity:', detail.quantity.toString()), // Chuyển đổi sang chuỗi
+            _buildDetailRow('Total Price:', detail.totalPrice.toString()), // Chuyển đổi sang chuỗi
           ],
         ),
       ),
@@ -121,3 +121,4 @@ class _OrderDetailsViewState extends State<OrderDetailsView> {
     );
   }
 }
+
