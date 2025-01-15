@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/app/models/order_detail.dart';
+import 'package:ecommerce_app/app/models/order_detailTam.dart';
 import 'package:ecommerce_app/app/models/status.dart';
 
 class Order {
