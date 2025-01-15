@@ -8,7 +8,7 @@ class AboutView extends StatelessWidget {
     {
       'name': 'Phùng Văn Được',
       'studentId': '21130327',
-      'class': 'DH21DTA',
+      'class': 'DH21DTB',
       'image': 'assets/images/avataDuoc.jpg',
     },
     {

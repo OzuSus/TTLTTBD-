@@ -209,7 +209,10 @@ class OrderManageController extends GetxController {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Get.snackbar('Success', 'Order added successfully!');
+        CustomSnackBar.showCustomSnackBar(
+          title: 'Đơn hàng',
+          message: 'Thêm đơn hàng thành công',
+        );
         Navigator.pop(context);
       } else {
         Get.snackbar('Error', 'Failed to add order. Code: ${response.statusCode}');

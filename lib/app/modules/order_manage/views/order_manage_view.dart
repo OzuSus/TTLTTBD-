@@ -44,7 +44,7 @@ class OrderManageView extends GetView<OrderManageController> {
                     onPressed: _onBackPressed,
                   ),
                   const Text(
-                    'Manage Orders',
+                    'Order Manage',
                     style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   IconButton(
@@ -205,7 +205,7 @@ class OrderManageView extends GetView<OrderManageController> {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return const AddOrderForm();
+        return AddOrderForm();
       },
     );
   }
