@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/app/routes/app_pages.dart';
+import 'package:ecommerce_app/utils/UserUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -39,6 +40,7 @@ class SettingsView extends GetView<SettingsController> {
               id: 'User',
               builder: (controller) {
                 final user = controller.currentUser;
+
                 return Column(
                   children: [
                     SettingsItem(
@@ -60,7 +62,17 @@ class SettingsView extends GetView<SettingsController> {
                       title: 'Purchase History',
                       subtitle:  Text("",style: theme.textTheme.displaySmall,),
                       icon: Constants.clipboardIcon,
-                      onTap: () => controller.navigateToPurchaseHistory(),
+                      onTap: () async {
+                        try {
+                          final userId = await UserUtils.getUserId();
+                          Get.toNamed(
+                            Routes.PURCHASE_HISTORY,
+                            arguments: {'id': userId},
+                          );
+                        } catch (e) {
+                          Get.snackbar('Error', e.toString());
+                        }
+                      },
                     ),
                     if (user != null && user['role'] == true) ...[
                       25.verticalSpace,

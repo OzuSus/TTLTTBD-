@@ -17,6 +17,9 @@ import 'package:ecommerce_app/app/modules/product_manage/views/Edit_Product/view
 import 'package:ecommerce_app/app/modules/product_manage/views/product_manage_view.dart';
 import 'package:ecommerce_app/app/modules/product_types/bindings/productTypesBinding.dart';
 import 'package:ecommerce_app/app/modules/product_types/views/productTypes_view.dart';
+import 'package:ecommerce_app/app/modules/purchase_history/bindings/purchase_history_binding.dart';
+// import 'package:ecommerce_app/app/modules/purchase_history/views/purchase_history_view.dart';
+import 'package:ecommerce_app/app/modules/purchase_history/views/purchase_historry_view.dart';
 import 'package:ecommerce_app/app/modules/register/bindings/register_bindings.dart';
 import 'package:ecommerce_app/app/modules/register/views/register_view.dart';
 import 'package:get/get.dart';
@@ -141,10 +144,16 @@ class AppPages {
       page: () => const UserManageView(),
       binding: UserManageBinding(),
     ),
-      GetPage(
+    GetPage(
       name: _Paths.ORDER_MANAGE,
       page: () => const OrderManageView(),
       binding: OrderManageBinding(),
+    ),
+    GetPage(
+      name: _Paths.PURCHASE_HISTORY,
+      page: () => const PurchaseHistoryView(),
+      binding: PurchaseHistoryBinding(),
+    ),
      ),
     GetPage(
       name: _Paths.ABOUT,
