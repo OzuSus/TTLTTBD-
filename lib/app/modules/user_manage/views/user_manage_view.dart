@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/user_manage_controller.dart'; // Import controller của UserManage
@@ -14,45 +15,90 @@ class UserManageView extends GetView<UserManageController> {
     final ScrollController scrollController = ScrollController();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('User Manage'), // Đổi tiêu đề thành "User Manage"
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: _onBackPressed,
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              _showAddUserForm(context);
-            },
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF9CB3FB), Color(0xFFB4FA99)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-        ],
+        ),
+        child: Column(
+          children: [
+            // Header với gradient
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFFF471BB), Color(0xFF77D0F6)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(24.0),
+                  bottomRight: Radius.circular(24.0),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: _onBackPressed,
+                  ),
+                  const Text(
+                    'User Manage',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.add, color: Colors.white),
+                    onPressed: () {
+                      _showAddUserForm(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            // Nội dung chính
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF9CB3FB), Color(0xFFB4FA99)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Obx(() {
+                  if (controller.users.isEmpty) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return ListView.builder(
+                    controller: scrollController,
+                    itemCount: controller.users.length,
+                    itemBuilder: (context, index) {
+                      final user = controller.users[index];
+                      return _buildUserDetail(context, user);
+                    },
+                  );
+                }),
+              ),
+            ),
+          ],
+        ),
       ),
-      body: Obx(() {
-        if (controller.users.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return ListView.builder(
-          controller: scrollController,
-          itemCount: controller.users.length,
-          itemBuilder: (context, index) {
-            User user = controller.users[index];
-
-            return _buildUserDetail(
-                context, user); // Hiển thị chi tiết của người dùng
-          },
-        );
-      }),
     );
   }
 
-  // Hàm xử lý quay lại
+
   void _onBackPressed() {
-    Get.back();
+    Get.toNamed(Routes.MANAGE);
   }
 
-  // Hàm hiển thị form thêm người dùng
   void _showAddUserForm(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -69,35 +115,33 @@ class UserManageView extends GetView<UserManageController> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return UpdateUserForm(
-            key: UniqueKey(), user: user); // Truyền user cần cập nhật
+            key: UniqueKey(), user: user);
       },
     );
   }
 
-  // Widget hiển thị chi tiết của user
   Widget _buildUserDetail(BuildContext context, User user) {
     return Card(
-      elevation: 3,
-      margin: const EdgeInsets.all(8.0),
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(16.0),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header: Avatar, Username, Email, Actions
             Row(
               children: [
                 Stack(
                   children: [
                     CircleAvatar(
                       radius: 40,
-                      backgroundImage: user.avatar != null &&
-                          user.avatar!.isNotEmpty
+                      backgroundImage: user.avatar != null && user.avatar!.isNotEmpty
                           ? NetworkImage(user.avatar!)
-                          : const AssetImage(
-                          'assets/images/default_avatar.png') as ImageProvider,
+                          : const AssetImage('assets/images/default_avatar.png') as ImageProvider,
                     ),
                     Positioned(
                       bottom: 0,
@@ -107,10 +151,9 @@ class UserManageView extends GetView<UserManageController> {
                           controller.changeAvatarForUser(user);
                         },
                         child: const CircleAvatar(
-                          radius: 12,
+                          radius: 14,
                           backgroundColor: Colors.white,
-                          child: Icon(Icons.camera_alt, size: 16, color: Colors
-                              .black),
+                          child: Icon(Icons.camera_alt, size: 18, color: Colors.black),
                         ),
                       ),
                     ),
@@ -124,28 +167,34 @@ class UserManageView extends GetView<UserManageController> {
                       Text(
                         user.username,
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                        maxLines: 1,
                       ),
+                      const SizedBox(height: 4.0),
                       Text(
                         user.email,
                         style: const TextStyle(
-                            fontSize: 14, color: Colors.grey),
+                          fontSize: 14,
+                          color: Colors.blueGrey,
+                        ),
+                        maxLines: 1,
                       ),
                     ],
                   ),
                 ),
                 Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.blue),
+                      icon: const Icon(Icons.edit, color: Colors.blueAccent),
                       onPressed: () {
-                        _showUpdateUserForm(
-                            context, user); // Hiển thị form chỉnh sửa
+                        _showUpdateUserForm(context, user);
                       },
                     ),
                     IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
+                      icon: const Icon(Icons.delete, color: Colors.redAccent),
                       onPressed: () {
                         _showDeleteConfirmationDialog(context, user);
                       },
@@ -154,44 +203,47 @@ class UserManageView extends GetView<UserManageController> {
                 ),
               ],
             ),
-            const SizedBox(height: 16.0),
-            // Thêm phần hiển thị Full Name
-            Row(
-              children: [
-                const Icon(Icons.person, color: Colors.grey),
-                const SizedBox(width: 8.0),
-                Text(user.fullname ?? 'No full name provided'),
-              ],
-            ),
-            const SizedBox(height: 8.0),
-            Row(
-              children: [
-                const Icon(Icons.phone, color: Colors.grey),
-                const SizedBox(width: 8.0),
-                Text(user.phone ?? 'No phone number'),
-              ],
-            ),
-            const SizedBox(height: 8.0),
-            Row(
-              children: [
-                const Icon(Icons.location_on, color: Colors.grey),
-                const SizedBox(width: 8.0),
-                Text(user.address ?? 'No address provided'),
-              ],
-            ),
-            const SizedBox(height: 8.0),
-            Row(
-              children: [
-                const Icon(Icons.verified_user, color: Colors.grey),
-                const SizedBox(width: 8.0),
-                Text(user.role ? 'Admin' : 'User'),
-              ],
-            ),
+            const Divider(height: 24.0, thickness: 1.0),
+            // User details
+            _buildDetailRow(Icons.person, "Full Name", user.fullname ?? 'No full name provided'),
+            const SizedBox(height: 12.0),
+            _buildDetailRow(Icons.phone, "Phone", user.phone ?? 'No phone number'),
+            const SizedBox(height: 12.0),
+            _buildDetailRow(Icons.location_on, "Address", user.address ?? 'No address provided'),
+            const SizedBox(height: 12.0),
+            _buildDetailRow(Icons.verified_user, "Role", user.role ? 'Admin' : 'User'),
           ],
         ),
       ),
     );
   }
+
+  Widget _buildDetailRow(IconData icon, String label, String value) {
+    return Row(
+      children: [
+        Icon(icon, color: Colors.blueGrey),
+        const SizedBox(width: 12.0),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.grey,
+          ),
+        ),
+        const Spacer(),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+          textAlign: TextAlign.right,
+        ),
+      ],
+    );
+  }
+
 
   void _showDeleteConfirmationDialog(BuildContext context, User user) {
     showDialog(

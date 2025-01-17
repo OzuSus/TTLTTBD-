@@ -19,7 +19,6 @@ class Order {
     required this.totalPrice,
   });
 
-  // Factory method để chuyển đổi từ JSON
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
       orderId: json['orderId'] as int,
@@ -33,7 +32,6 @@ class Order {
     );
   }
 
-  // Phương thức chuyển đối tượng Order thành JSON
   Map<String, dynamic> toJson() {
     return {
       'orderId': orderId,

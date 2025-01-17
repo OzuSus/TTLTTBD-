@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/app/components/custom_snackbar.dart';
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -10,19 +12,29 @@ class OrderManageController extends GetxController {
   var details = <OrderDetail>[].obs;
   RxInt orderId = 0.obs;
   RxInt detailId = 0.obs;
-  var selectedStatus = ''.obs; // Đang lưu tên trạng thái
-  var selectedStatusId = 0.obs; // Thêm một biến lưu statusId
-  final List<String> statusOptions = ['Chưa xác nhận', 'Đã xác nhận', 'Đã vận chuyển', 'Đã giao hàng']; // Status options
+  var selectedStatus = ''.obs;
+  var selectedStatusId = 0.obs;
+  final List<String> statusOptions = ['Chưa xác nhận', 'Đã xác nhận', 'Đã vận chuyển', 'Đã giao hàng'];
 
   TextEditingController userIdController = TextEditingController();
-  RxInt paymentMethod = 1.obs;
   TextEditingController productIdController = TextEditingController();
-  TextEditingController quantityController = TextEditingController();
+
+  final TextEditingController quantityController = TextEditingController();
+
+  final RxList<Map<String, dynamic>> users = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> products = <Map<String, dynamic>>[].obs;
+
+  final RxInt selectedUserId = 0.obs;
+  final RxInt selectedProductId = 0.obs;
+  final RxInt paymentMethod = 1.obs;
+
 
   @override
   void onInit() {
     super.onInit();
     fetchOrders();
+    fetchUsers();
+    fetchProducts();
   }
 
   Future<void> fetchOrders() async {
@@ -46,17 +58,15 @@ class OrderManageController extends GetxController {
 
   Future<void> fetchDetails() async {
     print(orderId.value);
-    String url = 'http://localhost:8080/api/orders/${orderId.value}/details'; // Thay bằng URL API thực tế
+    String url = 'http://localhost:8080/api/orders/${orderId.value}/details';
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final List<dynamic> fetchedDetails = json.decode(response.body);
         details.value = fetchedDetails.map((json) {
-          // Chuyển đổi dữ liệu order từ API thành đối tượng Order
           return OrderDetail.fromJson({
             ...json,
-            // Tùy chỉnh thêm nếu cần, ví dụ:
-            'totalPrice': double.tryParse(json['totalPrice'].toString()) ?? 0.0, // Đảm bảo totalPrice là double
+            'totalPrice': double.tryParse(json['totalPrice'].toString()) ?? 0.0,
           });
         }).toList();
       } else {
@@ -68,14 +78,46 @@ class OrderManageController extends GetxController {
       print(e);
     }
   }
+  Future<void> fetchUsers() async {
+    const String url = 'http://localhost:8080/api/users';
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final List<dynamic> fetchedUsers = json.decode(response.body);
+        users.value = fetchedUsers
+            .map((user) => {'id': user['id'], 'fullname': user['fullname']})
+            .toList();
+      } else {
+        Get.snackbar('Error', 'Failed to fetch users. Code: ${response.statusCode}');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch users: $e');
+    }
+  }
 
-  // Hàm thêm đơn hàng
+  Future<void> fetchProducts() async {
+    const String url = 'http://localhost:8080/api/products';
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final List<dynamic> fetchedProducts = json.decode(response.body);
+        products.value = fetchedProducts
+            .map((product) => {'id': product['id'], 'name': product['name']})
+            .toList();
+      } else {
+        Get.snackbar('Error', 'Failed to fetch products. Code: ${response.statusCode}');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch products: $e');
+    }
+  }
+
   Future<void> addOrder() async {
     try {
       const String url = 'http://localhost:8080/api/orders/place';
       final uri = Uri.parse(url).replace(queryParameters: {
         'idUser': userIdController.text,
-        'idPaymentMethop': paymentMethod.value.toString(), // Chuyển thành chuỗi
+        'idPaymentMethop': paymentMethod.value.toString(),
       });
 
       final response = await http.post(
@@ -95,7 +137,6 @@ class OrderManageController extends GetxController {
     }
   }
 
-  // Hàm xóa dữ liệu form
   void clearOrderForm() {
     userIdController.clear();
     paymentMethod.value = 1;
@@ -105,14 +146,16 @@ class OrderManageController extends GetxController {
 
   void deleteOrder() async{
     try {
-      // Gửi yêu cầu DELETE đến API
       final response = await http.delete(
         Uri.parse('http://localhost:8080/api/orders/${orderId.value}'),
       );
 
       if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Order has been deleted');
-        fetchOrders(); // Làm mới danh sách người dùng
+        CustomSnackBar.showCustomSnackBar(
+          title: 'Đơn hàng',
+          message: 'Xóa đơn hàng thành công',
+        );
+        fetchOrders();
       } else {
         Get.snackbar('Error', 'Failed to delete order');
       }
@@ -127,17 +170,52 @@ class OrderManageController extends GetxController {
       final uri = Uri.parse(url).replace(queryParameters: {
         'statusId': statusId.toString(),
       });
-
       final response = await http.put(
         uri,
         headers: {'Content-Type': 'application/json'},
       );
-
       if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Order status updated');
-        fetchOrders(); // Fetch the updated order list
+        CustomSnackBar.showCustomSnackBar(
+          title: 'Đơn hàng',
+          message: 'Cập nhập trạng thái đơn hàng thành công',
+        );
+        fetchOrders();
       } else {
         Get.snackbar('Error', 'Failed to update status');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'An error occurred: $e');
+    }
+  }
+
+  Future<void> addOrderToAPI(BuildContext context) async {
+    const String url = 'http://localhost:8080/api/orders/create';
+    try {
+      final body = {
+        "idUser": selectedUserId.value,
+        "idPaymentMethop": paymentMethod.value,
+        "products": [
+          {
+            "idProduct": selectedProductId.value,
+            "quantity": int.parse(quantityController.text),
+          }
+        ]
+      };
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(body),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        CustomSnackBar.showCustomSnackBar(
+          title: 'Đơn hàng',
+          message: 'Thêm đơn hàng thành công',
+        );
+        Navigator.pop(context);
+      } else {
+        Get.snackbar('Error', 'Failed to add order. Code: ${response.statusCode}');
       }
     } catch (e) {
       Get.snackbar('Error', 'An error occurred: $e');

@@ -25,6 +25,7 @@ abstract class Routes {
   static const USER_MANAGE =_Paths.USER_MANAGE;
   static const ORDER_MANAGE =_Paths.ORDER_MANAGE;
   static const PURCHASE_HISTORY =_Paths.PURCHASE_HISTORY;
+  static const ABOUTE =_Paths.ABOUT;
 
 }
 
@@ -51,5 +52,6 @@ abstract class _Paths {
   static const USER_MANAGE = '/user-manage';
   static const ORDER_MANAGE = '/order-manage';
   static const PURCHASE_HISTORY = '/purchase-history';
+  static const ABOUT ='/about';
 
 }

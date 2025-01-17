@@ -32,7 +32,7 @@ class AccountView extends GetView<AccountController> {
                         ),
                         child: IconButton(
                           icon: const Icon(Icons.arrow_back, color: Colors.white),
-                          onPressed: () => Get.offAllNamed(Routes.BASE),
+                          onPressed: () => Get.toNamed(Routes.BASE),
                         ),
                       ),
                     ],
@@ -85,7 +85,7 @@ class AccountView extends GetView<AccountController> {
                       child: const Text(
                         'Lưu',
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 22.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

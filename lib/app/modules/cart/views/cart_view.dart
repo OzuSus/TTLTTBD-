@@ -3,7 +3,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+
 import 'package:get/get.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../utils/constants.dart';
 import '../../../components/custom_button.dart';
@@ -216,7 +218,8 @@ class CartView extends GetView<CartController> {
                     ),
                     15.verticalSpace,
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.h, horizontal: 10.w),
                       decoration: BoxDecoration(
                         color: Colors.grey[100],
                         borderRadius: BorderRadius.circular(15.r),
@@ -233,15 +236,14 @@ class CartView extends GetView<CartController> {
                         id: 'PaymentMethod',
                         builder: (controller) => Column(
                           children: [
-                            // Mỗi phương thức nằm trong một Container riêng biệt
                             Container(
                               padding: EdgeInsets.all(15.r),
                               margin: EdgeInsets.only(bottom: 10.h),
                               decoration: BoxDecoration(
-                                color: Colors.white, // Nền trắng cho từng ô
-                                borderRadius: BorderRadius.circular(10.r), // Bo góc từng ô
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.r),
                                 border: Border.all(
-                                  color: Colors.grey.shade300, // Viền màu xám nhạt
+                                  color: Colors.grey.shade300,
                                   width: 1,
                                 ),
                               ),
@@ -254,12 +256,13 @@ class CartView extends GetView<CartController> {
                                         controller.onPaymentMethodChanged(value!),
                                     activeColor: theme.primaryColor,
                                   ),
-                                  SizedBox(width: 10.w), // Khoảng cách bên trái
+                                  SizedBox(width: 10.w),
                                   Expanded(
                                     child: Text(
                                       'Cash on Delivery (COD)',
                                       style: theme.textTheme.bodyMedium?.copyWith(
-                                        fontSize: 18.sp, // Tăng cỡ chữ
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.bold
                                       ),
                                     ),
                                   ),
@@ -277,24 +280,170 @@ class CartView extends GetView<CartController> {
                                   width: 1,
                                 ),
                               ),
-                              child: Row(
+                              child: Column(
+
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Radio<String>(
-                                    value: 'Banking',
-                                    groupValue: controller.selectedPaymentMethod,
-                                    onChanged: (value) =>
-                                        controller.onPaymentMethodChanged(value!),
-                                    activeColor: theme.primaryColor,
+                                  Row(
+                                    children: [
+                                      Radio<String>(
+                                        value: 'Banking',
+                                        groupValue:
+                                        controller.selectedPaymentMethod,
+                                        onChanged: (value) =>
+                                            controller.onPaymentMethodChanged(
+                                                value!),
+                                        activeColor: theme.primaryColor,
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Expanded(
+                                        child: Text(
+                                          'Bank Transfer',
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(
+                                            fontSize: 18.sp, fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(width: 10.w),
-                                  Expanded(
-                                    child: Text(
-                                      'Bank Transfer',
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        fontSize: 18.sp,
+
+                                  if (controller.selectedPaymentMethod == 'Banking') ...[
+                                    10.verticalSpace,
+                                    Card(
+                                      elevation: 6,
+                                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Thông tin thanh toán',
+                                              style: theme.textTheme.titleLarge?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                                color: theme.colorScheme.primary,
+                                              ),
+                                            ),
+                                            15.verticalSpace,
+                                            Divider(color: theme.dividerColor, thickness: 1),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  flex: 5,
+                                                  child: Text(
+                                                    'Tài khoản:',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.grey.shade600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Text(
+                                                    'PHUNG VAN DUOC',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            10.verticalSpace,
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  flex: 5,
+                                                  child: Text(
+                                                    'Ngân hàng:',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.grey.shade600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Text(
+                                                    'Vietcombank',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            10.verticalSpace,
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  flex: 5,
+                                                  child: Text(
+                                                    'Số tài khoản:',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.grey.shade600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 6,
+                                                  child: Text(
+                                                    '1016444855',
+                                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                                      fontSize: 16,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            10.verticalSpace,
+                                            Text(
+                                              'Nội dung chuyển khoản:',
+                                              style: theme.textTheme.bodyLarge?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                                color: Colors.grey.shade700,
+                                              ),
+                                            ),
+                                            10.verticalSpace,
+                                            Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade100,
+                                                borderRadius: BorderRadius.circular(8),
+                                                border: Border.all(color: theme.colorScheme.primary, width: 1.2),
+                                              ),
+                                              child: GetBuilder<CartController>(
+                                                id: 'EncodedBankingInfo',
+                                                builder: (controller) => Text(
+                                                  controller.encodedBankingInfo,
+                                                  style: theme.textTheme.bodyLarge?.copyWith(
+                                                    fontSize: 16,
+                                                    color: Colors.black87,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ],
                               ),
                             ),
@@ -308,24 +457,54 @@ class CartView extends GetView<CartController> {
                                   width: 1,
                                 ),
                               ),
-                              child: Row(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Radio<String>(
-                                    value: 'QRCode',
-                                    groupValue: controller.selectedPaymentMethod,
-                                    onChanged: (value) =>
-                                        controller.onPaymentMethodChanged(value!),
-                                    activeColor: theme.primaryColor,
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Expanded(
-                                    child: Text(
-                                      'QR Code Payment',
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        fontSize: 18.sp,
+                                  Row(
+                                    children: [
+                                      Radio<String>(
+                                        value: 'QRCode',
+                                        groupValue:
+                                        controller.selectedPaymentMethod,
+                                        onChanged: (value) =>
+                                            controller.onPaymentMethodChanged(
+                                                value!),
+                                        activeColor: theme.primaryColor,
                                       ),
-                                    ),
+                                      SizedBox(width: 10.w),
+                                      Expanded(
+                                        child: Text(
+                                          'QR Code Payment',
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(
+                                            fontSize: 18.sp,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
+                                  if (controller.selectedPaymentMethod ==
+                                      'QRCode') ...[
+                                    10.verticalSpace,
+                                    Card(
+                                      elevation: 6,
+                                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child:
+                                      GetBuilder<CartController>(
+                                        id: 'QRCodeData',
+                                        builder: (controller) => Center(
+                                          child: QrImageView(
+                                            data: controller.qrCodeData,
+                                            size: 200.w,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ],
                               ),
                             ),

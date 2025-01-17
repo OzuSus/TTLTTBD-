@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/app/modules/order_manage/controllers/order_manage_controller.dart';
+import 'package:ecommerce_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/app/modules/order_manage/views/widgets/order_details_view.dart';
 import 'package:get/get.dart';
@@ -12,44 +13,106 @@ class OrderManageView extends GetView<OrderManageController> {
   Widget build(BuildContext context) {
     final ScrollController scrollController = ScrollController();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manage Orders'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: _onBackPressed,
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              _showAddOrderForm(context);
-            },
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF9CB3FB), Color(0xFFB4FA99)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-        ],
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF717BF4), Color(0xFFEA8A11)], // Gradient của header
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(24.0),
+                  bottomRight: Radius.circular(24.0),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: _onBackPressed,
+                  ),
+                  const Text(
+                    'Order Manage',
+                    style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.add, color: Colors.white),
+                    onPressed: () {
+                      _showAddOrderForm(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+
+            // Nền chính với gradient khác
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF9CB3FB), Color(0xFFB4FA99)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Obx(() {
+                  if (controller.orders.isEmpty) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return ListView.builder(
+                    controller: scrollController,
+                    itemCount: controller.orders.length,
+                    itemBuilder: (context, index) {
+                      final order = controller.orders[index];
+                      return _buildOrderList(context, order);
+                    },
+                  );
+                }),
+              ),
+            ),
+          ],
+        ),
       ),
-      body: Obx(() {
-        if (controller.orders.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return ListView.builder(
-          controller: scrollController,
-          itemCount: controller.orders.length,
-          itemBuilder: (context, index) {
-            final order = controller.orders[index];
-            return _buildOrderList(context, order);
-          },
-        );
-      }),
     );
   }
 
+
+
   Widget _buildOrderList(BuildContext context, Order order) {
     final orderId = order.orderId;
+
+    // Lấy màu sắc dựa trên statusName
+    Color getStatusColor(String status) {
+      switch (status.toLowerCase()) {
+        case "đã xác nhận":
+          return Colors.orange;
+        case "đã vận chuyển":
+          return Colors.lightBlueAccent;
+        case "đã giao hàng":
+          return Colors.green;
+        case "chưa xác nhận":
+        default:
+          return Colors.red;
+      }
+    }
+
     return Card(
-      elevation: 3,
-      margin: const EdgeInsets.all(8.0),
+      elevation: 6,
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(16.0),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -63,6 +126,46 @@ class OrderManageView extends GetView<OrderManageController> {
                   'Order ID: $orderId',
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: getStatusColor(order.statusName),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    order.statusName,
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 8.0),
+
+            // Order Info
+            Text(
+              'User ID: ${order.userId}',
+              style: const TextStyle(fontSize: 15),
+            ),
+            Text(
+              'Date: ${order.dateOrder}',
+              style: const TextStyle(fontSize: 16),
+            ),
+            Text(
+              'Payment Method: ${order.paymentMethodName}',
+              style: const TextStyle(fontSize: 14),
+            ),
+
+            const SizedBox(height: 8.0),
+
+            // Footer Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Price: \$${order.totalPrice.toStringAsFixed(0)}',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
+                ),
                 Row(
                   children: [
                     IconButton(
@@ -74,14 +177,14 @@ class OrderManageView extends GetView<OrderManageController> {
                       },
                     ),
                     IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.yellow),
+                      icon: const Icon(Icons.edit, color: Colors.orange),
                       onPressed: () {
-                        controller.selectedStatus.value = order.statusName; // Set the current status to the selected value
+                        controller.selectedStatus.value = order.statusName;
                         _showStatusUpdateDialog(context, orderId, order.statusName);
                       },
                     ),
                     IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red), // Nút xóa đơn hàng
+                      icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () {
                         _showDeleteConfirmationDialog(context, orderId);
                       },
@@ -90,24 +193,19 @@ class OrderManageView extends GetView<OrderManageController> {
                 ),
               ],
             ),
-            const SizedBox(height: 8.0),
-            Text('User ID: ${order.userId}'),
-            Text('Date: ${order.dateOrder}'),
-            Text('Status: ${order.statusName}'),
-            Text('Payment Method: ${order.paymentMethodName}'),
-            Text('Total Price: ${order.totalPrice.toStringAsFixed(0)}'),
           ],
         ),
       ),
     );
   }
 
+
   void _showAddOrderForm(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return const AddOrderForm();
+        return AddOrderForm();
       },
     );
   }
@@ -134,15 +232,15 @@ class OrderManageView extends GetView<OrderManageController> {
             TextButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pop(); // Đóng hộp thoại mà không làm gì cả
+                    .pop();
               },
               child: const Text('Hủy'),
             ),
             TextButton(
               onPressed: () {
                 controller.orderId.value = orderId;
-                Navigator.of(context).pop(); // Đóng hộp thoại
-                controller.deleteOrder(); // Xóa người dùng
+                Navigator.of(context).pop();
+                controller.deleteOrder();
               },
               child: const Text('Xóa', style: TextStyle(color: Colors.red)),
             ),
@@ -153,7 +251,7 @@ class OrderManageView extends GetView<OrderManageController> {
   }
 
   void _onBackPressed() {
-    Get.back();
+    Get.toNamed(Routes.MANAGE);
   }
 
   void _showStatusUpdateDialog(BuildContext context, int orderId, String currentStatus) {
@@ -162,44 +260,77 @@ class OrderManageView extends GetView<OrderManageController> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Update Order Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const Text(
+                'Update Order Status',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
               const SizedBox(height: 20),
-              // Dropdown to select status
               Obx(() {
-                return DropdownButtonFormField<String>(
-                  value: controller.selectedStatus.value,
-                  decoration: InputDecoration(
-                    labelText: 'Status',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    border: Border.all(color: Colors.grey.shade300),
                   ),
-                  items: controller.statusOptions
-                      .map((status) => DropdownMenuItem<String>(
-                    value: status,
-                    child: Text(status),
-                  ))
-                      .toList(),
-                  onChanged: (value) {
-                    if (value != null) {
-                      controller.selectedStatus.value = value;
-                      controller.selectedStatusId.value = getStatusIdByName(value); // Lấy statusId
-                    }
-                  },
+                  child: DropdownButtonFormField<String>(
+                    value: controller.selectedStatus.value,
+                    decoration: const InputDecoration(
+                      labelText: 'Select Status',
+                      labelStyle: TextStyle(fontSize: 20, color: Colors.black87),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      border: InputBorder.none,
+                    ),
+                    items: controller.statusOptions
+                        .map((status) => DropdownMenuItem<String>(
+                      value: status,
+                      child: Text(
+                        status,
+                        style: const TextStyle(fontSize: 18, color: Colors.black87),
+                      ),
+                    ))
+                        .toList(),
+                    onChanged: (value) {
+                      if (value != null) {
+                        controller.selectedStatus.value = value;
+                        controller.selectedStatusId.value = getStatusIdByName(value);
+                      }
+                    },
+                  ),
                 );
               }),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               // Save Button
-              ElevatedButton(
-                onPressed: () async {
-                  // Truyền cả statusId khi gọi updateOrderStatus
-                  await controller.updateOrderStatus(orderId, controller.selectedStatusId.value);
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Save'),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    backgroundColor: Colors.blueAccent, // Adjust color here
+                  ),
+                  onPressed: () async {
+                    await controller.updateOrderStatus(orderId, controller.selectedStatusId.value);
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -208,9 +339,8 @@ class OrderManageView extends GetView<OrderManageController> {
     );
   }
 
-// Hàm giúp lấy statusId từ tên trạng thái
+
   int getStatusIdByName(String statusName) {
-    // Giả sử bạn có một danh sách các trạng thái với id, ví dụ:
     Map<String, int> statusMapping = {
       'Chưa xác nhận': 5,
       'Đã xác nhận': 6,
@@ -218,7 +348,7 @@ class OrderManageView extends GetView<OrderManageController> {
       'Đã giao hàng': 8,
     };
 
-    return statusMapping[statusName] ?? 0; // Trả về id mặc định nếu không tìm thấy
+    return statusMapping[statusName] ?? 0;
   }
 
 }

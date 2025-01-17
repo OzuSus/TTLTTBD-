@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/app/modules/aboute/bindings/aboute_binding.dart';
+import 'package:ecommerce_app/app/modules/aboute/views/aboute_view.dart';
 import 'package:ecommerce_app/app/modules/account/bindings/account_binding.dart';
 import 'package:ecommerce_app/app/modules/account/views/account_view.dart';
 import 'package:ecommerce_app/app/modules/categories/bindings/categories_binding.dart';
@@ -151,6 +153,11 @@ class AppPages {
       name: _Paths.PURCHASE_HISTORY,
       page: () => const PurchaseHistoryView(),
       binding: PurchaseHistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT,
+      page: () => const AboutView(),
+      binding: AbouteBinding(),
     ),
   ];
 }
