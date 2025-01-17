@@ -5,10 +5,16 @@ import 'dart:io';
 import '../../controllers/user_manage_controller.dart';
 import '../../../../models/user.dart'; // Import model User
 
-class UpdateUserForm extends StatefulWidget {
-  final User user; // Tham số user được truyền vào
-  const UpdateUserForm({Key? key, required this.user}) : super(key: key);
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class UpdateUserForm extends StatefulWidget {
+  final User user;
+
+  const UpdateUserForm({Key? key, required this.user}) : super(key: key);
 
   @override
   _UpdateUserFormState createState() => _UpdateUserFormState();
@@ -16,80 +22,110 @@ class UpdateUserForm extends StatefulWidget {
 
 class _UpdateUserFormState extends State<UpdateUserForm> {
   final UserManageController controller = Get.put(UserManageController());
-
   String? _role = 'User';
 
   @override
   void initState() {
     super.initState();
-    // Gọi setUser để gán giá trị user vào các controller
     controller.setUser(widget.user);
-    // Cập nhật role dựa trên user
     _role = widget.user.role ? 'Admin' : 'User';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Update User'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              Center(
-                child: Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    Obx(() => CircleAvatar(
-                      radius: 40,
-                      backgroundImage: controller.avatar.value != null &&
-                          controller.avatar.value!.isNotEmpty
-                          ? NetworkImage(controller.avatar.value!)
-                          : const AssetImage('assets/images/default_avatar.png')
-                      as ImageProvider,
-                    )),
-                    IconButton(
-                      icon: const Icon(Icons.camera_alt, color: Colors.white),
-                      onPressed: () {
-                        controller.changeAvatar(); // Gọi phương thức đổi avatar
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              ..._buildUpdateUserFields(),
-              const SizedBox(height: 20),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _saveUser,
-                  child: const Text('Lưu'),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                    textStyle: const TextStyle(fontSize: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+      body: Stack(
+        children: [
+          // Hình nền
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/background_account.png', // Đường dẫn hình nền
+              fit: BoxFit.cover,
+            ),
+          ),
+          // Nội dung chính
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  // Thanh tiêu đề
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.black87),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      const Expanded(
+                        child: Text(
+                          'Update User',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 48), // Giữ khoảng trống thay cho nút back
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  // Form cập nhật
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Avatar và nút camera
+                          Center(
+                            child: Stack(
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: controller.avatar.value != null &&
+                                      controller.avatar.value!.isNotEmpty
+                                      ? NetworkImage(controller.avatar.value!)
+                                      : const AssetImage('assets/images/default_avatar.png')
+                                  as ImageProvider,
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      controller.changeAvatar();
+                                    },
+                                    child: const CircleAvatar(
+                                      radius: 14,
+                                      backgroundColor: Colors.white,
+                                      child: Icon(
+                                        Icons.camera_alt,
+                                        size: 18,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          // Các trường thông tin người dùng
+                          ..._buildUpdateUserFields(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
-  // Hàm xây dựng các trường nhập liệu
   List<Widget> _buildUpdateUserFields() {
     final fields = [
       {'label': 'Username', 'icon': Icons.person, 'controller': controller.usernameController},
@@ -109,13 +145,34 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: isDropdown
-            ? _buildDropdownField(fieldName)
+            ? Column(
+          children: [
+            _buildDropdownField(fieldName),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _saveUser,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.greenAccent,
+                  padding: const EdgeInsets.symmetric(vertical: 22),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+                child: const Text(
+                  'Lưu',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ],
+        )
             : _buildTextField(fieldName, fieldIcon, controller!),
       );
     }).toList();
   }
 
-  // Widget cho trường TextField thông thường
   Widget _buildTextField(String label, IconData icon, TextEditingController controller) {
     return TextFormField(
       controller: controller,
@@ -123,27 +180,34 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
         labelText: label,
         labelStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
         prefixIcon: Icon(icon),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(12.0),
           borderSide: const BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(12.0),
           borderSide: const BorderSide(color: Colors.blue),
         ),
       ),
     );
   }
 
-  // Widget cho trường Role (Dropdown)
   Widget _buildDropdownField(String label) {
     return DropdownButtonFormField<String>(
       value: _role,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(color: Colors.blue),
+        ),
       ),
       items: const [
         DropdownMenuItem(value: 'User', child: Text('User')),
@@ -158,20 +222,16 @@ class _UpdateUserFormState extends State<UpdateUserForm> {
     );
   }
 
-  // Hàm lưu người dùng
   void _saveUser() {
-    // Tạo đối tượng User từ các trường nhập liệu
     final updatedUser = User(
-      id: widget.user.id,  // Giữ nguyên ID của user
+      id: widget.user.id,
       username: controller.usernameController.text,
       fullname: controller.fullnameController.text,
       email: controller.emailController.text,
       phone: controller.phoneController.text,
       address: controller.addressController.text,
-      role: _role == 'Admin', // Nếu _role là 'Admin' thì role = true, ngược lại là false
+      role: _role == 'Admin',
     );
-    // Gọi hàm editUser từ controller
     controller.editUser(updatedUser, context);
   }
 }
-

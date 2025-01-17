@@ -154,7 +154,6 @@ class AppPages {
       page: () => const PurchaseHistoryView(),
       binding: PurchaseHistoryBinding(),
     ),
-     ),
     GetPage(
       name: _Paths.ABOUT,
       page: () => const AboutView(),

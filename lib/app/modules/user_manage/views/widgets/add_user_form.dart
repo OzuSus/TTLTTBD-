@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:file_picker/file_picker.dart'; // Để chọn file ảnh
+import 'package:file_picker/file_picker.dart';
 import 'dart:io';
-import '../../controllers/user_manage_controller.dart'; // Import controller
+import '../../controllers/user_manage_controller.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AddUserForm extends StatefulWidget {
   const AddUserForm({Key? key}) : super(key: key);
@@ -12,68 +15,82 @@ class AddUserForm extends StatefulWidget {
 }
 
 class _AddUserFormState extends State<AddUserForm> {
-  // Khởi tạo controller UserManageController
   final UserManageController controller = Get.put(UserManageController());
-
   bool _isPasswordVisible = false;
   String? _role = 'User';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add User'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFEAE0AB), Color(0xFFC7FAC3)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              Center(
-                child: Stack(
-                  alignment: Alignment.bottomRight,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundImage: controller.avatar.value != null &&
-                          controller.avatar.value!.isNotEmpty
-                          ? NetworkImage(controller.avatar.value!)
-                          : const AssetImage('assets/images/default_avatar.png')
-                      as ImageProvider,
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () => Navigator.of(context).pop(),
                     ),
+                    const Expanded(
+                      child: Text(
+                        'Add User',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 48), // Giữ khoảng trống thay cho nút back
                   ],
                 ),
-              ),
-              const SizedBox(height: 20),
-              ..._buildAddUserFields(),
-              const SizedBox(height: 20),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _saveUser,
-                  child: const Text('Lưu'),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                    textStyle: const TextStyle(fontSize: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              CircleAvatar(
+                                radius: 50,
+                                backgroundImage: controller.avatar.value != null &&
+                                    controller.avatar.value!.isNotEmpty
+                                    ? NetworkImage(controller.avatar.value!)
+                                    : const AssetImage(
+                                    'assets/images/default_avatar.png')
+                                as ImageProvider,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        ..._buildAddUserFields(),
+                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  // Hàm xây dựng các trường nhập liệu
   List<Widget> _buildAddUserFields() {
     final fields = [
       {'label': 'Username', 'icon': Icons.person, 'controller': controller.usernameController},
@@ -95,7 +112,29 @@ class _AddUserFormState extends State<AddUserForm> {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: isDropdown
-            ? _buildDropdownField(fieldName)
+            ? Column(
+          children: [
+            _buildDropdownField(fieldName),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _saveUser,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white70,
+                  padding: const EdgeInsets.symmetric(vertical: 22),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+                child: const Text(
+                  'Save',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ],
+        )
             : isPassword
             ? _buildPasswordField(fieldName, fieldIcon, controller!)
             : _buildTextField(fieldName, fieldIcon, controller!),
@@ -103,7 +142,6 @@ class _AddUserFormState extends State<AddUserForm> {
     }).toList();
   }
 
-  // Widget cho trường TextField thông thường
   Widget _buildTextField(String label, IconData icon, TextEditingController controller) {
     return TextFormField(
       controller: controller,
@@ -111,20 +149,19 @@ class _AddUserFormState extends State<AddUserForm> {
         labelText: label,
         labelStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
         prefixIcon: Icon(icon),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(12.0),
           borderSide: const BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(12.0),
           borderSide: const BorderSide(color: Colors.blue),
         ),
       ),
     );
   }
 
-  // Widget cho trường mật khẩu
   Widget _buildPasswordField(String label, IconData icon, TextEditingController controller) {
     return TextFormField(
       controller: controller,
@@ -141,27 +178,34 @@ class _AddUserFormState extends State<AddUserForm> {
             });
           },
         ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(12.0),
           borderSide: const BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(12.0),
           borderSide: const BorderSide(color: Colors.blue),
         ),
       ),
     );
   }
 
-  // Widget cho trường Role (Dropdown)
   Widget _buildDropdownField(String label) {
     return DropdownButtonFormField<String>(
       value: _role,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          borderSide: const BorderSide(color: Colors.blue),
+        ),
       ),
       items: const [
         DropdownMenuItem(value: 'User', child: Text('User')),
@@ -176,8 +220,8 @@ class _AddUserFormState extends State<AddUserForm> {
     );
   }
 
-  // Hàm lưu người dùng
   void _saveUser() {
-    controller.addUser();
+    controller.addUser(context);
   }
 }
+

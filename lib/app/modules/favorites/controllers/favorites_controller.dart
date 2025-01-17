@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ecommerce_app/app/components/custom_snackbar.dart';
 import 'package:ecommerce_app/app/models/product.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,10 +30,10 @@ class FavoritesController extends GetxController {
         _favoriteProducts.value = products.map<int>((product) => product.id).toSet();
         update(['FavoriteButton']);
       } else {
-        Get.snackbar("Lỗi", "Không thể tải danh sách yêu thích.");
+        // Get.snackbar("Lỗi", "Không thể tải danh sách yêu thích.");
       }
     } catch (e) {
-      Get.snackbar("Lỗi", "Có lỗi xảy ra khi tải danh sách yêu thích.");
+      // Get.snackbar("Lỗi", "Có lỗi xảy ra khi tải danh sách yêu thích.");
     }
   }
 
@@ -58,7 +59,10 @@ class FavoritesController extends GetxController {
         _favoriteProducts.add(productId);
         update(['FavoriteButton']);
         await loadFavorites();
-        Get.snackbar("Thành công", "Sản phẩm đã được thêm vào danh sách yêu thích.");
+        CustomSnackBar.showCustomSnackBar(
+          title: 'Thành công',
+          message: 'Thêm sản phẩm vào danh sách yêu thích thành công',
+        );
       } else {
         Get.snackbar("Lỗi", "Không thể thêm sản phẩm vào danh sách yêu thích.");
       }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:ecommerce_app/app/components/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -109,7 +110,7 @@ class UserManageController extends GetxController {
 
   // Thêm người dùng mới
   // Thêm người dùng mới
-  void addUser() async {
+  void addUser(BuildContext context) async {
     try {
       // Lấy dữ liệu từ các TextEditingController
       final userData = {
@@ -132,9 +133,15 @@ class UserManageController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        Get.snackbar('Thành công', 'Người dùng đã được thêm!');
+        CustomSnackBar.showCustomSnackBar(
+          title: 'User',
+          message: 'Thêm user thành công',
+        );
+
         fetchUsers(); // Cập nhật lại danh sách người dùng
+        Navigator.pop(context);
         clearForm(); // Xóa form
+
       } else {
         Get.snackbar('Lỗi', 'Thêm người dùng thất bại. Vui lòng thử lại.');
       }
@@ -158,7 +165,10 @@ class UserManageController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        Get.snackbar('Success', 'User has been deleted');
+        CustomSnackBar.showCustomSnackBar(
+          title: 'User',
+          message: 'Xóa user thành công',
+        );
         fetchUsers(); // Làm mới danh sách người dùng
       } else {
         Get.snackbar('Error', 'Failed to delete user');
@@ -216,7 +226,10 @@ class UserManageController extends GetxController {
       final response = await request.send();
 
       if (response.statusCode == 200) {
-        Get.snackbar('Thành công', 'Người dùng đã được cập nhật!');
+        CustomSnackBar.showCustomSnackBar(
+          title: 'User',
+          message: 'Cập nhập thông tin user thành công',
+        );
         fetchUsers(); // Cập nhật lại danh sách người dùng
         Navigator.pop(context);
       } else {
